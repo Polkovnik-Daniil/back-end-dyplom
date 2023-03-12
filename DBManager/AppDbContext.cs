@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace DBManager {
     public class AppDbContext : DbContext {
         #region Fields
+        //public DbSet<..> .. { get; set; }
         #endregion
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) {
             Database.EnsureCreated();

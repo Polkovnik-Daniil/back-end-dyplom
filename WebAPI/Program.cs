@@ -1,8 +1,15 @@
+using DBManager;
+using DBManager.Pattern;
+using Microsoft.EntityFrameworkCore;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 ///
-var connection = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<AppDbcontext>(options => options.UseSqlServer(connection));
+string? connection = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<AppDbContext>(options =>
+                                                options.UseSqlServer(connection));
+builder.Services.AddTransient<UnitOfWork>();
 ///
 
 // Add services to the container.

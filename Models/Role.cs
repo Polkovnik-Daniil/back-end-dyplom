@@ -6,5 +6,6 @@ using System.Threading.Tasks;
 
 namespace Models {
     public class Role {
+
     }
 }

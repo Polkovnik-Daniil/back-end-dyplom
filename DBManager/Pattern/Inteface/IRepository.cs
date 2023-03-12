@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DBManager.Pattern.Inteface
-{
+﻿namespace DBManager.Pattern.Inteface {
     internal interface IRepository<T> where T : class
     {
         IEnumerable<T> GetList();

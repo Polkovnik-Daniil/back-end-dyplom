@@ -81,8 +81,8 @@ namespace Models {
         /// <param name="ArrivalAirport">Аэропорт прибытия</param>
         /// <param name="status">Статус</param>
         /// <param name="FreePlaces">количество свободных мест</param>
-        public Flight(string ID, Airplane Airplane, DateTime DepartureTime, DateTime ArrivalTime, string DeparturePoint, string DepartureAirport, string ArrivalPoint, string ArrivalAirport, char status, int FreePlaces) {
-            this.ID = ID;
+        public Flight(string Id, Airplane Airplane, DateTime DepartureTime, DateTime ArrivalTime, string DeparturePoint, string DepartureAirport, string ArrivalPoint, string ArrivalAirport, char status, int FreePlaces) {
+            this.Id = Id;
             this.Airplane = Airplane;
             this.DepartureTime = DepartureTime;
             this.ArrivalTime = ArrivalTime;

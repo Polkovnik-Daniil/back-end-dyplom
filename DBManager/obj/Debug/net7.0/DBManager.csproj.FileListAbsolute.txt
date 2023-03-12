@@ -1,0 +1,12 @@
+D:\Danik\Intertenament\WebAPI\DBManager\bin\Debug\net7.0\DBManager.deps.json
+D:\Danik\Intertenament\WebAPI\DBManager\bin\Debug\net7.0\DBManager.dll
+D:\Danik\Intertenament\WebAPI\DBManager\bin\Debug\net7.0\DBManager.pdb
+D:\Danik\Intertenament\WebAPI\DBManager\obj\Debug\net7.0\DBManager.csproj.AssemblyReference.cache
+D:\Danik\Intertenament\WebAPI\DBManager\obj\Debug\net7.0\DBManager.GeneratedMSBuildEditorConfig.editorconfig
+D:\Danik\Intertenament\WebAPI\DBManager\obj\Debug\net7.0\DBManager.AssemblyInfoInputs.cache
+D:\Danik\Intertenament\WebAPI\DBManager\obj\Debug\net7.0\DBManager.AssemblyInfo.cs
+D:\Danik\Intertenament\WebAPI\DBManager\obj\Debug\net7.0\DBManager.csproj.CoreCompileInputs.cache
+D:\Danik\Intertenament\WebAPI\DBManager\obj\Debug\net7.0\DBManager.dll
+D:\Danik\Intertenament\WebAPI\DBManager\obj\Debug\net7.0\refint\DBManager.dll
+D:\Danik\Intertenament\WebAPI\DBManager\obj\Debug\net7.0\DBManager.pdb
+D:\Danik\Intertenament\WebAPI\DBManager\obj\Debug\net7.0\ref\DBManager.dll

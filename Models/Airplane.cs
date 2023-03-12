@@ -32,12 +32,14 @@ namespace Models {
         public Airplane() {
 
         }
-        public Airplane(string ID, string name, int places, string creator) {
-            this.ID = ID;
-            this.Name = name;
-            this.Places = places;
-            this.Creator = creator;
+        
+        public Airplane(string Id, string Name, int Places, string Creator) {
+            this.Id = Id;
+            this.Name = Name;
+            this.Places = Places;
+            this.Creator = Creator;
         }
+        
         #endregion
     }
 }
