@@ -27,11 +27,6 @@ namespace Models {
         /// </summary>
         [MaxLength(450)]
         public string Surname { get; set; }
-        
-        /// <summary>
-        /// Удоли это говно
-        /// </summary>
-        public char Sex { get; set; }
         #endregion
 
         #region contructors
