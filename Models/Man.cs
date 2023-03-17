@@ -34,12 +34,11 @@ namespace Models {
 
         }
 
-        public Man(string Id, string PassportNumber, string Name, string Surname, char Sex) {
+        public Man(string Id, string PassportNumber, string Name, string Surname) {
             this.Id = Id;
             this.PassportNumber = PassportNumber;
             this.Name = Name;
             this.Surname = Surname;
-            this.Sex = Sex;
         }
         #endregion
     }
