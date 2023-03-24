@@ -1027,6 +1027,19 @@
             "rid": "win"
           }
         }
+      },
+      "Models/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v7.0",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "7.0.3"
+        },
+        "compile": {
+          "bin/placeholder/Models.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Models.dll": {}
+        }
       }
     }
   },
@@ -3171,12 +3184,18 @@
         "useSharedDesignerContext.txt",
         "version.txt"
       ]
+    },
+    "Models/1.0.0": {
+      "type": "project",
+      "path": "../Models/Models.csproj",
+      "msbuildProject": "../Models/Models.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net7.0": [
       "Microsoft.EntityFrameworkCore >= 7.0.3",
-      "Microsoft.EntityFrameworkCore.SqlServer >= 7.0.3"
+      "Microsoft.EntityFrameworkCore.SqlServer >= 7.0.3",
+      "Models >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -3210,7 +3229,11 @@
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "D:\\Danik\\Intertenament\\WebAPI\\Models\\Models.csproj": {
+              "projectPath": "D:\\Danik\\Intertenament\\WebAPI\\Models\\Models.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
