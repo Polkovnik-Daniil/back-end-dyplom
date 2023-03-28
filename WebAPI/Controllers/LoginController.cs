@@ -18,7 +18,6 @@ namespace WebAPI.Controllers {
             _logger = logger;
             _unitOfWork = unitOfWork;
             _config = config;
-
         }
         [AllowAnonymous]
         [HttpPost]
