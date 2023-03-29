@@ -1,4 +1,6 @@
-﻿using DBManager.Pattern;
+﻿using DBManager;
+using DBManager.Pattern;
+using DBManager.Pattern.UnitOfWork;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -13,23 +15,42 @@ namespace WebAPI.Controllers {
     public class LoginController : ControllerBase {
         private readonly ILogger<LoginController> _logger; //для логов
         private IConfiguration _config; //для токенов
-        private UnitOfWork _unitOfWork; //для БД
-        public LoginController(ILogger<LoginController> logger, UnitOfWork unitOfWork, IConfiguration config) {
+        public LoginController(ILogger<LoginController> logger, IConfiguration config) {
             _logger = logger;
-            _unitOfWork = unitOfWork;
             _config = config;
         }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public void Login() { 
+            //var _unitOfWork = Program.ServiceProvider.GetService<IUnitOfWork>();
+            //var roleRepository = _unitOfWork?.GetRepository<Role>();
+            //var a = roleRepository.GetAll(false).ToList();
+            //roleRepository.Insert(new Role() { Name = "User" });
+            //_unitOfWork.SaveChanges();
+            //if (!_unitOfWork.LastSaveChangesResult.IsOk) {
+            //    var defaultColor = Console.ForegroundColor;
+            //    Console.ForegroundColor = ConsoleColor.Red;
+            //    Console.WriteLine(_unitOfWork.LastSaveChangesResult.Exception.Message);
+            //    Console.ForegroundColor = defaultColor;
+            //}
+        }
+
+
         [AllowAnonymous]
         [HttpPost]
         public IActionResult Login([FromBody] UserLogin userLogin) {
-            _unitOfWork.Users.Create(new User() { Email = "danik@popopop.com", Id = 1, Name = "user", Role = new Role() { Id = 1, Name = "User" } });
-            _unitOfWork.Users.Save();
-            var user = Authenticate(userLogin);
+            //_unitOfWork.Users.Create(new User() { Email = "danik@popopop.com", Id = 1, Name = "user", Role = new Role() { Id = 1, Name = "User" } });
+            //_unitOfWork.Users.Save();
+            ///
+            //IRepository<UserLogin>? userLogin1 = _unitOfWork?.GetRepository<UserLogin>();
+            //var user = Authenticate(userLogin);
 
-            if (user != null) {
-                var token = Generate(user);
-                return Ok(token);
-            }
+            //if (user != null) {
+            //    var token = Generate(user);
+            //    return Ok(token);
+            //}
+            ///
 
             return NotFound("User not found");
         }
