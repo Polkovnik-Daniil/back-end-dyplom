@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "FM6RIhsltqZ9jED2oyrh7PCLa08tbPCmpgjYY0RErGmjOkTH0R7MXC81pZ7byCUP8XuF/F2gnoXyZU0H7qlz8w==",
+  "dgSpecHash": "Y18rNKpzd/r7jMb13Ztr9aaO12NnCEXmp41KhD9CHBrcVvEJ8/hGBDAjXtxaAWUQj/nxMPvczQjK8Ud/Sp2+Lw==",
   "success": true,
   "projectFilePath": "D:\\Danik\\Intertenament\\WebAPI\\Models\\Models.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\ADMINISTRATOR\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
     "C:\\Users\\ADMINISTRATOR\\.nuget\\packages\\microsoft.entityframeworkcore\\7.0.3\\microsoft.entityframeworkcore.7.0.3.nupkg.sha512",
     "C:\\Users\\ADMINISTRATOR\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\7.0.3\\microsoft.entityframeworkcore.abstractions.7.0.3.nupkg.sha512",
     "C:\\Users\\ADMINISTRATOR\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\7.0.3\\microsoft.entityframeworkcore.analyzers.7.0.3.nupkg.sha512",
@@ -14,7 +15,11 @@
     "C:\\Users\\ADMINISTRATOR\\.nuget\\packages\\microsoft.extensions.logging\\7.0.0\\microsoft.extensions.logging.7.0.0.nupkg.sha512",
     "C:\\Users\\ADMINISTRATOR\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\7.0.0\\microsoft.extensions.logging.abstractions.7.0.0.nupkg.sha512",
     "C:\\Users\\ADMINISTRATOR\\.nuget\\packages\\microsoft.extensions.options\\7.0.0\\microsoft.extensions.options.7.0.0.nupkg.sha512",
-    "C:\\Users\\ADMINISTRATOR\\.nuget\\packages\\microsoft.extensions.primitives\\7.0.0\\microsoft.extensions.primitives.7.0.0.nupkg.sha512"
+    "C:\\Users\\ADMINISTRATOR\\.nuget\\packages\\microsoft.extensions.primitives\\7.0.0\\microsoft.extensions.primitives.7.0.0.nupkg.sha512",
+    "C:\\Users\\ADMINISTRATOR\\.nuget\\packages\\microsoft.identitymodel.abstractions\\6.27.0\\microsoft.identitymodel.abstractions.6.27.0.nupkg.sha512",
+    "C:\\Users\\ADMINISTRATOR\\.nuget\\packages\\microsoft.identitymodel.logging\\6.27.0\\microsoft.identitymodel.logging.6.27.0.nupkg.sha512",
+    "C:\\Users\\ADMINISTRATOR\\.nuget\\packages\\microsoft.identitymodel.tokens\\6.27.0\\microsoft.identitymodel.tokens.6.27.0.nupkg.sha512",
+    "C:\\Users\\ADMINISTRATOR\\.nuget\\packages\\system.security.cryptography.cng\\4.5.0\\system.security.cryptography.cng.4.5.0.nupkg.sha512"
   ],
   "logs": []
 }

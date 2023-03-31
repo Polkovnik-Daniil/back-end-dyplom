@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DBManager.Pattern.UnitOfWork;
+namespace DBManager.Pattern.Interface;
 
 /// <summary>
 /// Defines the interfaces for generic repository.
@@ -391,7 +391,7 @@ public interface IRepository<TEntity> where TEntity : class
     /// <param name="entity">The entity to insert.</param>
     /// <param name="cancellationToken">A <see cref="CancellationToken"/> to observe while waiting for the task to complete.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous insert operation.</returns>
-    ValueTask<EntityEntry<TEntity>> InsertAsync(TEntity entity, CancellationToken cancellationToken = default(CancellationToken));
+    ValueTask<EntityEntry<TEntity>> InsertAsync(TEntity entity, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Inserts a range of entities asynchronously.
@@ -406,7 +406,7 @@ public interface IRepository<TEntity> where TEntity : class
     /// <param name="entities">The entities to insert.</param>
     /// <param name="cancellationToken">A <see cref="CancellationToken"/> to observe while waiting for the task to complete.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous insert operation.</returns>
-    Task InsertAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default(CancellationToken));
+    Task InsertAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default);
 
     #endregion
 

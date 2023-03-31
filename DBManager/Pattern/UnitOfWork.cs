@@ -1,11 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DBManager.Pattern.Interface;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DBManager.Pattern.UnitOfWork;
 

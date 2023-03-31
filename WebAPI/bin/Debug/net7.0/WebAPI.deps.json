@@ -2365,7 +2365,8 @@
       },
       "Models/1.0.0": {
         "dependencies": {
-          "Microsoft.EntityFrameworkCore": "7.0.4"
+          "Microsoft.EntityFrameworkCore": "7.0.4",
+          "Microsoft.IdentityModel.Tokens": "6.27.0"
         },
         "runtime": {
           "Models.dll": {}

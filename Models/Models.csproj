@@ -7,9 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="garbage\BookAuthor.cs" />
-    <Compile Remove="garbage\BookCrossing.cs" />
-    <Compile Remove="garbage\BookGenre.cs" />
     <Compile Remove="garbage\RoleRepository.cs" />
     <Compile Remove="garbage\UserLoginRepository.cs" />
     <Compile Remove="garbage\UserRepository.cs" />
@@ -17,6 +14,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.3" />
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.27.0" />
   </ItemGroup>
 
   <ItemGroup>

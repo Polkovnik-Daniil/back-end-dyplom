@@ -1,4 +1,4 @@
-﻿namespace DBManager.Pattern.UnitOfWork;
+﻿namespace DBManager.Pattern.Interface;
 
 /// <summary>
 /// Defines the interfaces for <see cref="IRepository{TEntity}"/> interfaces.

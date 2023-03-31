@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DBManager.Pattern.UnitOfWork;
+namespace DBManager.Pattern.Interface;
 
 /// <summary>
 /// Provides the interface(s) for paged list of any type.

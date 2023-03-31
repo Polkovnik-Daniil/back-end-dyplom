@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using DBManager.Pattern.Interface;
 
 namespace DBManager.Pattern.UnitOfWork;
 

@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using DBManager.Pattern.UnitOfWork;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace DBManager.Pattern.UnitOfWork;
+namespace DBManager.Pattern.Interface;
 
 /// <summary>
 /// Extensions for IPageList

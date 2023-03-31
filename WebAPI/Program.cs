@@ -1,7 +1,10 @@
 using DBManager;
-using Microsoft.EntityFrameworkCore;
+using System.Text;
+using DBManager.Pattern.Interface;
 using DBManager.Pattern.UnitOfWork;
-
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,23 +14,22 @@ builder.Services.AddDbContext<AppDbContext>(options =>
                                                 options.UseSqlServer(connection));
 builder.Services.AddUnitOfWork<AppDbContext>();
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork<AppDbContext>>();
-
-//builder.Services.AddTransient<>();
-//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-//                .AddJwtBearer(options => {
-//                    options.TokenValidationParameters = new TokenValidationParameters {
-//                        ValidateIssuer = true,
-//                        ValidateAudience = true,
-//                        ValidateLifetime = true,
-//                        ValidateIssuerSigningKey = true,
-//                        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-//                        ValidAudience = builder.Configuration["Jwt:Audience"],
-//                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
-//                    };
-//                });
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options => {
+                    options.TokenValidationParameters = new TokenValidationParameters {
+                        ValidateIssuer = true,
+                        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                        ValidateAudience = true,
+                        ValidAudience = builder.Configuration["Jwt:Audience"],
+                        ValidateLifetime = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
+                        ValidateIssuerSigningKey = true
+                    };
+                });
 
 
 ///
+
 // Add services to the container.
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -44,19 +46,9 @@ if (app.Environment.IsDevelopment()) {
 
 app.UseHttpsRedirection();
 
-///
 app.UseAuthentication();
-///
-
 app.UseAuthorization();
 
 app.MapControllers();
-///
-//ServiceProvider = builder.Services.BuildServiceProvider();
-///
-app.Run();
 
-//Используется для получения и работы с DI объектами.
-//public partial class Program {
-//    public static IServiceProvider ServiceProvider { get; private set; }
-//}
+app.Run();

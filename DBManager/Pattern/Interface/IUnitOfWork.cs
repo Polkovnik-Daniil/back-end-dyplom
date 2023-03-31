@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using DBManager.Pattern.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Storage;
 
-namespace DBManager.Pattern.UnitOfWork;
+namespace DBManager.Pattern.Interface;
 
 /// <summary>
 /// Defines the interface(s) for generic unit of work.
 /// </summary>
 public interface IUnitOfWork<out TContext> : IUnitOfWork
-    where TContext : DbContext 
+    where TContext : DbContext
 {
     /// <summary>
     /// Gets the db context.

@@ -1,4 +1,4 @@
-﻿namespace Models.garbage
+﻿namespace Models
 {
     //
     public class BookCrossing

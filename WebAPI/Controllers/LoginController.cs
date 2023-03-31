@@ -1,81 +1,64 @@
-﻿using DBManager;
-using DBManager.Pattern;
-using DBManager.Pattern.UnitOfWork;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using Models;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
+﻿using Models;
+using DBManager;
 using System.Text;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc;
+using DBManager.Pattern.Interface;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebAPI.Controllers {
     [ApiController]
     [Route("api/[controller]")]
     public class LoginController : ControllerBase {
         private readonly ILogger<LoginController> _logger; //для логов
-        private IConfiguration _config; //для токенов
-        public LoginController(ILogger<LoginController> logger, IConfiguration config) {
+        private IUnitOfWork<AppDbContext> _unitOfWork;
+        private IRepository<User> _userRepository;
+        private IRepository<Role> _roleRepository;
+        private IConfiguration _configuration; //для токенов
+        public LoginController(ILogger<LoginController> logger, IServiceProvider serviceProvider, IConfiguration configuration) {
             _logger = logger;
-            _config = config;
+            _unitOfWork = serviceProvider.GetRequiredService<IUnitOfWork<AppDbContext>>();
+            _userRepository = _unitOfWork.GetRepository<User>();
+            _roleRepository = _unitOfWork.GetRepository<Role>();
+            _configuration = configuration;
         }
 
         [AllowAnonymous]
-        [HttpGet]
-        public void Login() { 
-            //var _unitOfWork = Program.ServiceProvider.GetService<IUnitOfWork>();
-            //var roleRepository = _unitOfWork?.GetRepository<Role>();
-            //var a = roleRepository.GetAll(false).ToList();
-            //roleRepository.Insert(new Role() { Name = "User" });
-            //_unitOfWork.SaveChanges();
-            //if (!_unitOfWork.LastSaveChangesResult.IsOk) {
-            //    var defaultColor = Console.ForegroundColor;
-            //    Console.ForegroundColor = ConsoleColor.Red;
-            //    Console.WriteLine(_unitOfWork.LastSaveChangesResult.Exception.Message);
-            //    Console.ForegroundColor = defaultColor;
-            //}
-        }
-
-
-        [AllowAnonymous]
+        [Route("/Token")]
         [HttpPost]
-        public IActionResult Login([FromBody] UserLogin userLogin) {
-            //_unitOfWork.Users.Create(new User() { Email = "danik@popopop.com", Id = 1, Name = "user", Role = new Role() { Id = 1, Name = "User" } });
-            //_unitOfWork.Users.Save();
-            ///
-            //IRepository<UserLogin>? userLogin1 = _unitOfWork?.GetRepository<UserLogin>();
-            //var user = Authenticate(userLogin);
-
-            //if (user != null) {
-            //    var token = Generate(user);
-            //    return Ok(token);
-            //}
-            ///
-
-            return NotFound("User not found");
-        }
-        private string Generate(User user) {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
+        public IResult Token([FromBody] LoginModel loginModel) {
+            User? user = _userRepository.GetFirstOrDefault(predicate: x => x.Email == loginModel.Email && x.Password == loginModel.Password);
+            bool IsExistUser = user is not null;
+            if (!IsExistUser) {
+                return Results.BadRequest(new { message = "Invalid username or password." });
+            }
+            user!.Role = _roleRepository.GetFirstOrDefault(predicate: x => x.Id == user.RoleId);
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
             var claims = new[]
             {
-                new Claim(ClaimTypes.NameIdentifier, user.UserLogin.Login),
-                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Email, user!.Email),
                 new Claim(ClaimTypes.GivenName, user.Name),
-                new Claim(ClaimTypes.Role, user.Role.Name)
+                new Claim(ClaimTypes.Role, user.Role!.Name)
             };
 
-            var token = new JwtSecurityToken(_config["Jwt:Issuer"],
-              _config["Jwt:Audience"],
-              claims,
-              expires: DateTime.Now.AddMinutes(15),
-              signingCredentials: credentials);
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
-        }
-        private User Authenticate(UserLogin userLogin) {
-            return new User() { };
+            var now = DateTime.UtcNow;
+            double lifeTime = Convert.ToDouble(_configuration["Jwt:LifeTime"]);
+            SymmetricSecurityKey symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+            // создаем JWT-токен
+            var jwt = new JwtSecurityToken(_configuration["Jwt:Issuer"],
+                                           _configuration["Jwt:Audience"],
+                                           claims,
+                                           expires: DateTime.Now.AddMinutes(15),
+                                           signingCredentials: credentials);
+            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+            user.Token = encodedJwt;
+            _userRepository.Update(user);
+            _unitOfWork.SaveChanges();
+            return Results.Ok(new { message = encodedJwt });
         }
     }
 }

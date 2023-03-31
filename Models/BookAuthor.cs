@@ -1,4 +1,4 @@
-﻿namespace Models.garbage
+﻿namespace Models
 {
     //В наличии класса нет необходимости в случаи использования ICollection<>
     public class BookAuthor

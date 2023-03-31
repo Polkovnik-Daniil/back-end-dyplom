@@ -3816,7 +3816,8 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v7.0",
         "dependencies": {
-          "Microsoft.EntityFrameworkCore": "7.0.3"
+          "Microsoft.EntityFrameworkCore": "7.0.3",
+          "Microsoft.IdentityModel.Tokens": "6.27.0"
         },
         "compile": {
           "bin/placeholder/Models.dll": {}

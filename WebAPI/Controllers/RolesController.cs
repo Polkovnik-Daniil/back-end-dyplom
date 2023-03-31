@@ -1,5 +1,6 @@
 ﻿using DBManager;
-using DBManager.Pattern.UnitOfWork;
+using DBManager.Pattern.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Models;
@@ -9,6 +10,7 @@ using Models;
 namespace WebAPI.Controllers {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Admin")]
     public class RolesController : ControllerBase {
         private readonly ILogger<RolesController> _logger;
         private IUnitOfWork<AppDbContext> _unitOfWork;
@@ -22,8 +24,7 @@ namespace WebAPI.Controllers {
         [HttpGet]
         public IQueryable<Role> Get() {
             _logger.LogInformation("/api/Roles : get request");
-            var result = _roleRepository.GetAll(false);
-            return result;
+            return _roleRepository.GetAll(false);
         }
 
         [HttpGet("{id}")]
@@ -35,30 +36,35 @@ namespace WebAPI.Controllers {
         [HttpPost]
         public void Post([FromBody] Role value) {
             _logger.LogInformation("/api/Roles : post request");
-            _roleRepository.Insert(value);
-            _unitOfWork.SaveChanges();
+            var IsExistNewValue = _roleRepository.Find(value.Id) is not null;
+            if (!IsExistNewValue) {
+                _roleRepository.Insert(value);
+                _unitOfWork.SaveChanges();
+            }
         }
 
         [HttpPut]
         public void Put([FromBody] Role value) {
             _logger.LogInformation("/api/Roles : put request");
             var oldValue = _roleRepository.Find(value.Id);
-            _unitOfWork.DbContext.Entry(oldValue).State = EntityState.Detached;
+            _unitOfWork.DbContext.Entry(oldValue).State = EntityState.Detached; //убираю отслеживание, для того, чтобы можно было обновить значение
             bool IsEqualOldValue = oldValue.Equals(value);
             if (!IsEqualOldValue) {
-                //_unitOfWork.DbContext.ChangeTracker.Clear();
-                //oldValue.Name = value.Name;
                 _roleRepository.Update(value);
                 _unitOfWork.SaveChanges();
-                //_unitOfWork.DbContext.Entry(value).State = EntityState.Modified;
             }
         }
 
         [HttpDelete("{id}")]
         public void Delete(int id) {
             _logger.LogInformation("/api/Roles : delete request");
-            _roleRepository.Delete(id);
-            _unitOfWork.SaveChanges();
+            var removedValue = _roleRepository.Find(id);
+            _unitOfWork.DbContext.Entry(removedValue).State = EntityState.Detached; //убираю отслеживание, для того, чтобы можно было обновить значение
+            bool IsExist = removedValue is not null;
+            if (IsExist) {
+                _roleRepository.Delete(removedValue);
+                _unitOfWork.SaveChanges();
+            }
         }
     }
 }
