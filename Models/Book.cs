@@ -20,9 +20,9 @@ namespace Models {
         /// Количество страниц
         /// </summary>
         public int? Quantity { get; set; }
-        public ICollection<Author> Authors { get; set; } //
-        public ICollection<Genre> Genres { get; set; } //
-        public ICollection<Reader> Readers { get; set; } //
+        public ICollection<Author> Authors { get; set; } // BookAuthor
+        public ICollection<Genre> Genres { get; set; } // BookGenre
+        public ICollection<Reader> Readers { get; set; } // BookReader
         #endregion
     }
 }
