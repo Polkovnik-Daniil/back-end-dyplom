@@ -5,6 +5,7 @@ using DBManager.Pattern.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using WebAPI.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
                                                 options.UseSqlServer(connection));
 builder.Services.AddUnitOfWork<AppDbContext>();
 builder.Services.AddTransient<IUnitOfWork, UnitOfWork<AppDbContext>>();
+builder.Services.AddTransient<ITokenService, TokenService>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => {
                     options.TokenValidationParameters = new TokenValidationParameters {
@@ -26,8 +28,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                         ValidateIssuerSigningKey = true
                     };
                 });
-
-
+builder.Services.AddCors(options => {
+    options.AddPolicy("EnableCORS", builder => {
+        builder.AllowAnyOrigin()
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+    });
+});
 ///
 
 // Add services to the container.
@@ -46,6 +53,7 @@ if (app.Environment.IsDevelopment()) {
 
 app.UseHttpsRedirection();
 
+app.UseCors("EnableCORS");
 app.UseAuthentication();
 app.UseAuthorization();
 

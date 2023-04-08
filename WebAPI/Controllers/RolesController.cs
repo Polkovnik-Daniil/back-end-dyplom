@@ -15,10 +15,11 @@ namespace WebAPI.Controllers {
         private readonly ILogger<RolesController> _logger;
         private IUnitOfWork<AppDbContext> _unitOfWork;
         private IRepository<Role> _roleRepository;
-        public RolesController(ILogger<RolesController> logger, IServiceProvider serviceProvider) {
-            _logger = logger;
-            _unitOfWork = serviceProvider.GetRequiredService<IUnitOfWork<AppDbContext>>();
-            _roleRepository = _unitOfWork.GetRepository<Role>();
+        public RolesController(ILogger<RolesController> logger,
+                               IServiceProvider serviceProvider) {
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _unitOfWork = serviceProvider.GetRequiredService<IUnitOfWork<AppDbContext>>() ?? throw new ArgumentNullException(nameof(serviceProvider));
+            _roleRepository = _unitOfWork.GetRepository<Role>() ?? throw new ArgumentNullException(nameof(_unitOfWork));
         }
 
         [HttpGet]
@@ -28,43 +29,55 @@ namespace WebAPI.Controllers {
         }
 
         [HttpGet("{id}")]
-        public Role? Get(int id) {
+        public IActionResult Get(int id) {
             _logger.LogInformation("/api/Roles : get Id request");
-            return _roleRepository.Find(id);
+            var result = _roleRepository.Find(id);
+            if (result is null) {
+                return BadRequest("Value is not exist!");
+            }
+            return Ok(result);
         }
 
         [HttpPost]
-        public void Post([FromBody] Role value) {
+        public IActionResult Post([FromBody] Role value) {
             _logger.LogInformation("/api/Roles : post request");
             var IsExistNewValue = _roleRepository.Find(value.Id) is not null;
             if (!IsExistNewValue) {
                 _roleRepository.Insert(value);
                 _unitOfWork.SaveChanges();
+                return Ok("This value was added!");
             }
+            return Ok("This value is exist!");
         }
 
         [HttpPut]
-        public void Put([FromBody] Role value) {
+        public IActionResult Put([FromBody] Role value) {
             _logger.LogInformation("/api/Roles : put request");
             var oldValue = _roleRepository.Find(value.Id);
-            _unitOfWork.DbContext.Entry(oldValue).State = EntityState.Detached; //убираю отслеживание, для того, чтобы можно было обновить значение
-            bool IsEqualOldValue = oldValue.Equals(value);
+            if(oldValue is null) {
+                BadRequest("Uncorrected values");
+            }
+            _unitOfWork.DbContext.Entry(oldValue!).State = EntityState.Detached; //убираю отслеживание, для того, чтобы можно было обновить значение
+            bool IsEqualOldValue = oldValue!.Equals(value);
             if (!IsEqualOldValue) {
                 _roleRepository.Update(value);
                 _unitOfWork.SaveChanges();
+                return Ok("This value is update!");
             }
+            return Ok("This value is actually");    
         }
 
         [HttpDelete("{id}")]
-        public void Delete(int id) {
+        public IActionResult Delete(int id) {
             _logger.LogInformation("/api/Roles : delete request");
             var removedValue = _roleRepository.Find(id);
-            _unitOfWork.DbContext.Entry(removedValue).State = EntityState.Detached; //убираю отслеживание, для того, чтобы можно было обновить значение
-            bool IsExist = removedValue is not null;
-            if (IsExist) {
-                _roleRepository.Delete(removedValue);
-                _unitOfWork.SaveChanges();
+            if(removedValue is null) {
+                return Ok("This value was deleted!");
             }
+            _unitOfWork.DbContext.Entry(removedValue!).State = EntityState.Detached; //убираю отслеживание, для того, чтобы можно было обновить значение
+            _roleRepository.Delete(removedValue!);
+            _unitOfWork.SaveChanges();
+            return Ok("This value is deleted!");
         }
     }
 }
