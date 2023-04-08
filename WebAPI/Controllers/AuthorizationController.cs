@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebAPI.Controllers {
     [Route("api/[controller]")]
@@ -13,14 +14,12 @@ namespace WebAPI.Controllers {
         private readonly ITokenService _tokenService;
         private IUnitOfWork<AppDbContext> _unitOfWork;
         private IRepository<User> _userRepository;
-        private IRepository<Role> _roleRepository;
         public AuthorizationController(ILogger<AuthorizationController> logger, 
                                        IServiceProvider serviceProvider, 
                                        ITokenService tokenService) {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _unitOfWork = serviceProvider.GetRequiredService<IUnitOfWork<AppDbContext>>() ?? throw new ArgumentNullException(nameof(serviceProvider));
             _userRepository = _unitOfWork.GetRepository<User>() ?? throw new ArgumentNullException(nameof(_unitOfWork));
-            _roleRepository = _unitOfWork.GetRepository<Role>() ?? throw new ArgumentNullException(nameof(_unitOfWork));
             _tokenService = tokenService ?? throw new ArgumentNullException(nameof(tokenService));
         }
         [AllowAnonymous]
@@ -29,11 +28,10 @@ namespace WebAPI.Controllers {
             if (loginModel is null) {
                 return BadRequest("Invalid client request");
             }
-            User? user = _userRepository.GetFirstOrDefault(predicate: x => x.Email == loginModel.Email && x.Password == loginModel.Password);
+            User? user = _userRepository.GetFirstOrDefault(predicate: x => x.Email == loginModel.Email && x.Password == loginModel.Password,
+                                                           include: i => i.Include(x => x.Role));
             if (user is null)
                 return Unauthorized();
-            user.Role = _roleRepository.GetFirstOrDefault(predicate: x => x.Id == user.RoleId);
-
             var claims = new[]
             {
                 new Claim(ClaimTypes.Email, user!.Email),
