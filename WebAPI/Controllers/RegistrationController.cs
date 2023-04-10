@@ -1,7 +1,6 @@
 ﻿using DBManager.Pattern.Interface;
 using DBManager;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using System.Security.Claims;
@@ -38,7 +37,7 @@ namespace WebAPI.Controllers {
             {
                 new Claim(ClaimTypes.Email, newUser!.Email),
                 new Claim(ClaimTypes.GivenName, newUser.Name),
-                new Claim(ClaimTypes.Role, UserRole.Name)
+                new Claim(ClaimTypes.Role, "User")
             };
             var accessToken = _tokenService.GenerateAccessToken(claims);
             var refreshToken = _tokenService.GenerateRefreshToken();

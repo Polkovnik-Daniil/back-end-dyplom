@@ -19,7 +19,7 @@ namespace WebAPI.Data {
                 issuer: _configuration["Jwt:Issuer"],
                 audience: _configuration["Jwt:Audience"],
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(lifeTime),
+                expires: DateTime.Now.AddYears((int)lifeTime),
                 signingCredentials: signinCredentials
             );
             var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);

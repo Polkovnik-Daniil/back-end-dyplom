@@ -21,11 +21,11 @@ namespace Models {
         /// </summary>
         public int? Quantity { get; set; }
         public IList<Author>? Authors { get; set; } // BookAuthor
-        public IList<BookAuthor> BookAuthors { get; set; }
+        public IList<BookAuthor>? BookAuthors { get; set; }
         public IList<Genre>? Genres { get; set; }   // BookGenre
-        public IList<BookGenre> BookGenre { get; set; }
+        public IList<BookGenre>? BookGenre { get; set; }
         public IList<Reader>? Readers { get; set; } // BookReader
-        public IList<BookReader> BookReader { get; set; }
+        public IList<BookReader>? BookReader { get; set; }
         #endregion
     }
 }

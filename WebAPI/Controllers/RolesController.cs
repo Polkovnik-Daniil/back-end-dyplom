@@ -11,11 +11,11 @@ namespace WebAPI.Controllers {
     [Route("api/[controller]")]
     [ApiController]
     //[Authorize(Roles = "Admin")]
-    public class RoleController : ControllerBase {
-        private readonly ILogger<RoleController> _logger;
+    public class RolesController : ControllerBase {
+        private readonly ILogger<RolesController> _logger;
         private IUnitOfWork<AppDbContext> _unitOfWork;
         private IRepository<Role> _roleRepository;
-        public RoleController(ILogger<RoleController> logger,
+        public RolesController(ILogger<RolesController> logger,
                                IServiceProvider serviceProvider) {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _unitOfWork = serviceProvider.GetRequiredService<IUnitOfWork<AppDbContext>>() ?? throw new ArgumentNullException(nameof(serviceProvider));
