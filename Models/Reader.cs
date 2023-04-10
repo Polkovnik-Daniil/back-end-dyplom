@@ -13,6 +13,8 @@ namespace Models {
         /// </summary>
         public string? PlaceOfResidence { get; set; }
         public string PhoneNumber { get; set; }
+        public IList<Book> Books { get; set; }
+        public IList<BookReader> BookReader { get; set; } 
         #endregion
     }
 }

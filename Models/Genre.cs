@@ -12,5 +12,7 @@ namespace Models {
         /// Название жанра
         /// </summary>
         public string Name { get; set; }
+        public IList<Book> Books { get; set; }
+        public IList<BookGenre> BookGenre { get; set; }
     }
 }
