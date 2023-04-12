@@ -23,7 +23,7 @@ namespace WebAPI.Controllers {
             _tokenService = tokenService ?? throw new ArgumentNullException(nameof(tokenService));
         }
         [AllowAnonymous]
-        [HttpPost, Route("Login")]
+        [HttpPost]
         public IActionResult Login([FromBody] LoginModel loginModel) {
             if (loginModel is null) {
                 return BadRequest("Invalid client request");
@@ -46,7 +46,7 @@ namespace WebAPI.Controllers {
             
             _userRepository.Update(user);
             _unitOfWork.SaveChanges();
-            
+
             return Ok(new {
                 AccessToken = accessToken,
                 RefreshToken = refreshToken

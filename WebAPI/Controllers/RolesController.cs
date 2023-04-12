@@ -10,7 +10,7 @@ using Models;
 namespace WebAPI.Controllers {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class RolesController : ControllerBase {
         private readonly ILogger<RolesController> _logger;
         private IUnitOfWork<AppDbContext> _unitOfWork;

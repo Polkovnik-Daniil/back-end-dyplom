@@ -3,6 +3,7 @@ using DBManager.Pattern.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models;
+using System.Security.Claims;
 
 namespace WebAPI.Controllers {
     [Route("api/[controller]")]
@@ -23,17 +24,19 @@ namespace WebAPI.Controllers {
         [HttpPost]
         [Route("Refresh")]
         //body
-        public IActionResult Refresh([FromBody]Token token) {
-            if (token is null)
+        public IActionResult Refresh([FromBody]string RefreshToken) {
+            if (RefreshToken is null)
                 return BadRequest("Invalid client request");
-            string accessToken = token.AccessToken!;
-            string refreshToken = token.RefreshToken!;
-            var principal = _tokenService.GetPrincipalFromExpiredToken(accessToken);
-            var userEmail = principal.Claims.First().Value; //get email user
-            var user = _userRepository.GetFirstOrDefault(predicate: x => x.Email == userEmail);
-            if (user is null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
+            var user = _userRepository.GetFirstOrDefault(predicate: x => x.RefreshToken == RefreshToken);
+            if (user is null || user.RefreshToken != RefreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
                 return BadRequest("Invalid client request");
-            var newAccessToken = _tokenService.GenerateAccessToken(principal.Claims);
+            var claims = new[]
+            {
+                new Claim(ClaimTypes.Email, user!.Email),
+                new Claim(ClaimTypes.GivenName, user.Name),
+                new Claim(ClaimTypes.Role, user.Role!.Name)
+            };
+            var newAccessToken = _tokenService.GenerateAccessToken(claims);
             var newRefreshToken = _tokenService.GenerateRefreshToken();
             user.RefreshToken = newRefreshToken;
             _unitOfWork.SaveChanges();
