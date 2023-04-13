@@ -1,9 +1,10 @@
-﻿using DBManager;
-using DBManager.Pattern.Interface;
-using Microsoft.AspNetCore.Authorization;
+﻿using DBManager.Pattern.Interface;
+using DBManager;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace WebAPI.Controllers {
     [Route("api/[controller]")]
@@ -24,11 +25,12 @@ namespace WebAPI.Controllers {
         [HttpPost]
         [Route("Refresh")]
         //body
-        public IActionResult Refresh([FromBody]string RefreshToken) {
-            if (RefreshToken is null)
+        public IActionResult Refresh([FromBody]Token token) {
+            if (token.RefreshToken is null)
                 return BadRequest("Invalid client request");
-            var user = _userRepository.GetFirstOrDefault(predicate: x => x.RefreshToken == RefreshToken);
-            if (user is null || user.RefreshToken != RefreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
+            User? user = _userRepository.GetFirstOrDefault(predicate: x => x.RefreshToken == token.RefreshToken,
+                                                         include: i => i.Include(x => x.Role));
+            if (user is null || user.RefreshToken != token.RefreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
                 return BadRequest("Invalid client request");
             var claims = new[]
             {

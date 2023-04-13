@@ -12,14 +12,14 @@ namespace WebAPI.Data {
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
         public string GenerateAccessToken(IEnumerable<Claim> claims) {
-            var secretKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]!));
+            var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!));
             var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
             var lifeTime = Convert.ToDouble(_configuration["Jwt:LifeTime"]);
             var tokeOptions = new JwtSecurityToken(
                 issuer: _configuration["Jwt:Issuer"],
                 audience: _configuration["Jwt:Audience"],
                 claims: claims,
-                expires: DateTime.Now.AddYears((int)lifeTime),
+                expires: DateTime.Now.AddYears(1),
                 signingCredentials: signinCredentials
             );
             var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
