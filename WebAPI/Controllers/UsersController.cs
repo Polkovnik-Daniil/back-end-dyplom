@@ -24,7 +24,8 @@ namespace WebAPI.Controllers {
         [HttpGet]
         public IList<User> GetPage(int PageIndex = 0) {
             _logger.LogInformation("/api/Roles : get request");
-            return _userRepository.GetPagedList(pageIndex: PageIndex).Items;
+            return _userRepository.GetPagedList(pageIndex: PageIndex,
+                                                include: i => i.Include(x => x.Role)).Items;
         }
 
         [HttpGet("{id}")]

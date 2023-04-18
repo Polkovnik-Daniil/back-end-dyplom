@@ -15,5 +15,6 @@ namespace Models {
         public Role? Role { get; set; }
         public string? RefreshToken { get; set; }
         public DateTime? RefreshTokenExpiryTime { get; set; }
+        public bool IsLocked { get; set; }        
     }
 }

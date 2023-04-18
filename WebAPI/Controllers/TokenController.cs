@@ -32,6 +32,10 @@ namespace WebAPI.Controllers {
                                                          include: i => i.Include(x => x.Role));
             if (user is null || user.RefreshToken != token.RefreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
                 return BadRequest("Invalid client request");
+            if (user.IsLocked) {
+                return StatusCode(403);
+            }
+
             var claims = new[]
             {
                 new Claim(ClaimTypes.Email, user!.Email),
@@ -41,6 +45,7 @@ namespace WebAPI.Controllers {
             var newAccessToken = _tokenService.GenerateAccessToken(claims);
             var newRefreshToken = _tokenService.GenerateRefreshToken();
             user.RefreshToken = newRefreshToken;
+            _userRepository.Update(user);
             _unitOfWork.SaveChanges();
             return Ok(new {
                 AccessToken = newAccessToken,

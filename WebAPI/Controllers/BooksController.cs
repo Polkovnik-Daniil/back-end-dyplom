@@ -24,9 +24,14 @@ namespace WebAPI.Controllers {
         [HttpGet]
         public IList<Book> GetPage(int PageIndex = 0) {
             _logger.LogInformation("/api/Book : get request");
+            int count = _bookRepository.Count();
             return _bookRepository.GetPagedList(pageIndex: PageIndex).Items;
         }
-
+        [HttpGet, Route("CountPage")]
+        public int GetCountPage() {
+            int count = _bookRepository.Count();
+            return count % 20 == 0 ? (count / 20) : ((count / 20) + 1);
+        }
         [HttpGet("{id}")]
         public IActionResult GetItem(int id = 0) {
             _logger.LogInformation("/api/Roles : get Id request");

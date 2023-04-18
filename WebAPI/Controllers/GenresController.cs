@@ -37,7 +37,7 @@ namespace WebAPI.Controllers {
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin, Moderator")]
+        [Authorize(Roles = "Admin, Moderator, User")]
         public IActionResult Post([FromBody] Genre value) {
             _logger.LogInformation("/api/Author : post request");
             var IsExistNewValue = _genreRepository.Find(value.Id) is not null;

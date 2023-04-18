@@ -7,20 +7,19 @@ using System.Security.Claims;
 
 namespace WebAPI.Controllers {
     [Route("api/[controller]")]
+    [Authorize(Roles = "Admin")]
     [ApiController]
     public class RegistrationController : ControllerBase {
         private readonly ILogger<RegistrationController> _logger; //для логов
         private readonly ITokenService _tokenService;
         private IUnitOfWork<AppDbContext> _unitOfWork;
         private IRepository<User> _userRepository;
-        private IRepository<Role> _roleRepository;
         public RegistrationController(ILogger<RegistrationController> logger,
                                        IServiceProvider serviceProvider,
                                        ITokenService tokenService) {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _unitOfWork = serviceProvider.GetRequiredService<IUnitOfWork<AppDbContext>>() ?? throw new ArgumentNullException(nameof(serviceProvider));
             _userRepository = _unitOfWork.GetRepository<User>() ?? throw new ArgumentNullException(nameof(_unitOfWork));
-            _roleRepository = _unitOfWork.GetRepository<Role>() ?? throw new ArgumentNullException(nameof(_unitOfWork));
             _tokenService = tokenService ?? throw new ArgumentNullException(nameof(tokenService));
         }
         [AllowAnonymous]
@@ -32,7 +31,6 @@ namespace WebAPI.Controllers {
             User? user = _userRepository.GetFirstOrDefault(predicate: x => x.Email == newUser.Email);
             if (user is not null)
                 return BadRequest("User with this email is already registered!");
-            Role? UserRole = _roleRepository.GetFirstOrDefault(predicate: x => x.Name == "User");
             var claims = new[]
             {
                 new Claim(ClaimTypes.Email, newUser!.Email),
@@ -44,7 +42,6 @@ namespace WebAPI.Controllers {
 
             newUser.RefreshToken = refreshToken;
             newUser.RefreshTokenExpiryTime = DateTime.Now.AddDays(15);
-            newUser.RoleId = UserRole.Id;
 
             _userRepository.Insert(newUser);
             _unitOfWork.SaveChanges();

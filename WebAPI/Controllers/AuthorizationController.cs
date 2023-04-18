@@ -32,6 +32,9 @@ namespace WebAPI.Controllers {
                                                            include: i => i.Include(x => x.Role));
             if (user is null)
                 return Unauthorized();
+            if (user.IsLocked) {
+                return StatusCode(403);
+            }
             var claims = new[]
             {
                 new Claim(ClaimTypes.Email, user!.Email),
@@ -42,7 +45,7 @@ namespace WebAPI.Controllers {
             var refreshToken = _tokenService.GenerateRefreshToken();
 
             user.RefreshToken = refreshToken;
-            user.RefreshTokenExpiryTime = DateTime.Now.AddDays(7);
+            user.RefreshTokenExpiryTime = DateTime.Now.AddYears(1);
             
             _userRepository.Update(user);
             _unitOfWork.SaveChanges();
