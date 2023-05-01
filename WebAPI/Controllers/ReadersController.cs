@@ -21,7 +21,7 @@ namespace WebAPI.Controllers {
         }
 
         [HttpGet]
-        public IList<Reader> GetPage(int PageIndex = 0) {
+        public async Task<IList<Reader>> GetPage(int PageIndex = 0) {
             _logger.LogInformation("/api/Book : get request");
             return _readerRepository.GetPagedList(pageIndex: PageIndex).Items;
         }
@@ -33,7 +33,7 @@ namespace WebAPI.Controllers {
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetItem(int id = 0) {
+        public async Task<IActionResult> GetItem(int id = 0) {
             _logger.LogInformation("/api/Roles : get Id request");
             var result = _readerRepository.Find(id);
             if (result is null) {
@@ -43,7 +43,7 @@ namespace WebAPI.Controllers {
         }
 
         [HttpPost, Authorize(Roles = "Admin, Moderator")]
-        public IActionResult Post([FromBody] Reader value) {
+        public async Task<IActionResult> Post([FromBody] Reader value) {
             _logger.LogInformation("/api/Book : post request");
             var IsExistNewValue = _readerRepository.Find(value.Id) is not null;
             if (!IsExistNewValue) {
@@ -55,7 +55,7 @@ namespace WebAPI.Controllers {
         }
 
         [HttpPut, Authorize(Roles = "Admin, Moderator")]
-        public IActionResult Put([FromBody] Reader value) {
+        public async Task<IActionResult> Put([FromBody] Reader value) {
             _logger.LogInformation("/api/Book : put request");
             var oldValue = _readerRepository.Find(value.Id);
             if (oldValue is null) {
@@ -72,7 +72,7 @@ namespace WebAPI.Controllers {
         }
 
         [HttpDelete("{id}"), Authorize(Roles = "Admin, Moderator")]
-        public IActionResult Delete(int id) {
+        public async Task<IActionResult> Delete(int id) {
             _logger.LogInformation("/api/Book : delete request");
             var removedValue = _readerRepository.Find(id);
             if (removedValue is null) {

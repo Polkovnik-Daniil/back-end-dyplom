@@ -22,18 +22,18 @@ namespace WebAPI.Controllers {
         }
 
         [HttpGet]
-        public IList<Book> GetPage(int PageIndex = 0) {
+        public async Task<IList<Book>> GetPage(int PageIndex = 0) {
             _logger.LogInformation("/api/Book : get request");
             int count = _bookRepository.Count();
             return _bookRepository.GetPagedList(pageIndex: PageIndex).Items;
         }
         [HttpGet, Route("CountPage")]
-        public int GetCountPage() {
+        public async Task<int> GetCountPage() {
             int count = _bookRepository.Count();
             return count % 20 == 0 ? (count / 20) : ((count / 20) + 1);
         }
         [HttpGet("{id}")]
-        public IActionResult GetItem(int id = 0) {
+        public async Task<IActionResult> GetItem(int id = 0) {
             _logger.LogInformation("/api/Roles : get Id request");
             var result = _bookRepository.Find(id);
             if (result is null) {
@@ -43,7 +43,7 @@ namespace WebAPI.Controllers {
         }
 
         [HttpPost, Authorize(Roles = "Admin, Moderator")]
-        public IActionResult Post([FromBody] Book value) {
+        public async Task<IActionResult> Post([FromBody] Book value) {
             _logger.LogInformation("/api/Book : post request");
             var IsExistNewValue = _bookRepository.Find(value.Id) is not null;
             if (!IsExistNewValue) {
@@ -55,7 +55,7 @@ namespace WebAPI.Controllers {
         }
 
         [HttpPut, Authorize(Roles = "Admin, Moderator")]
-        public IActionResult Put([FromBody] Book value) {
+        public async Task<IActionResult> Put([FromBody] Book value) {
             _logger.LogInformation("/api/Book : put request");
             var oldValue = _bookRepository.Find(value.Id);
             if (oldValue is null) {

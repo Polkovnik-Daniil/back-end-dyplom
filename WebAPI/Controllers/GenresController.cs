@@ -21,13 +21,13 @@ namespace WebAPI.Controllers {
         }
 
         [HttpGet]
-        public IList<Genre> GetPage(int PageIndex = 0) {
+        public async Task<IList<Genre>> GetPage(int PageIndex = 0) {
             _logger.LogInformation("/api/Author : get request");
             return _genreRepository.GetPagedList(pageIndex: PageIndex).Items;
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetItem(int id) {
+        public async Task<IActionResult> GetItem(int id) {
             _logger.LogInformation("/api/Author : get Id request");
             var result = _genreRepository.Find(id);
             if (result is null) {
@@ -38,7 +38,7 @@ namespace WebAPI.Controllers {
 
         [HttpPost]
         [Authorize(Roles = "Admin, Moderator, User")]
-        public IActionResult Post([FromBody] Genre value) {
+        public async Task<IActionResult> Post([FromBody] Genre value) {
             _logger.LogInformation("/api/Author : post request");
             var IsExistNewValue = _genreRepository.Find(value.Id) is not null;
             if (!IsExistNewValue) {
@@ -51,7 +51,7 @@ namespace WebAPI.Controllers {
 
         [HttpPut]
         [Authorize(Roles = "Admin, Moderator")]
-        public IActionResult Put([FromBody] Genre value) {
+        public async Task<IActionResult> Put([FromBody] Genre value) {
             _logger.LogInformation("/api/Author : put request");
             var oldValue = _genreRepository.Find(value.Id);
             if (oldValue is null) {
@@ -69,7 +69,7 @@ namespace WebAPI.Controllers {
 
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin, Moderator")]
-        public IActionResult Delete(int id) {
+        public async Task<IActionResult> Delete(int id) {
             _logger.LogInformation("/api/Author : delete request");
             var removedValue = _genreRepository.Find(id);
             if (removedValue is null) {

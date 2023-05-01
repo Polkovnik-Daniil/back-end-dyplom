@@ -33,6 +33,7 @@ namespace WebAPI.Controllers {
                 return BadRequest("User with this email is already registered!");
             var claims = new[]
             {
+                new Claim(ClaimTypes.SerialNumber, user!.Id.ToString()),
                 new Claim(ClaimTypes.Email, newUser!.Email),
                 new Claim(ClaimTypes.GivenName, newUser.Name),
                 new Claim(ClaimTypes.Role, "User")

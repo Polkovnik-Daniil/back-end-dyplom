@@ -25,7 +25,7 @@ namespace WebAPI.Controllers {
         [HttpPost]
         [Route("Refresh")]
         //body
-        public IActionResult Refresh([FromBody]Token token) {
+        public async Task<IActionResult> Refresh([FromBody]Token token) {
             if (token.RefreshToken is null)
                 return BadRequest("Invalid client request");
             User? user = _userRepository.GetFirstOrDefault(predicate: x => x.RefreshToken == token.RefreshToken,
@@ -38,6 +38,7 @@ namespace WebAPI.Controllers {
 
             var claims = new[]
             {
+                new Claim(ClaimTypes.SerialNumber, user!.Id.ToString()),
                 new Claim(ClaimTypes.Email, user!.Email),
                 new Claim(ClaimTypes.GivenName, user.Name),
                 new Claim(ClaimTypes.Role, user.Role!.Name)
@@ -55,7 +56,7 @@ namespace WebAPI.Controllers {
         [HttpPost, Authorize]
         [Route("Revoke")]
         //header
-        public IActionResult Revoke() {
+        public async Task<IActionResult> Revoke() {
             var userEmail = User.Claims.First().Value;
             var user = _userRepository.GetFirstOrDefault(predicate: x => x.Name == userEmail);
             if (user == null) return BadRequest();

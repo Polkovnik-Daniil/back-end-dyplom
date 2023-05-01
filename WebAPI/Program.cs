@@ -5,8 +5,10 @@ using DBManager.Pattern.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using WebAPI.Data;
+using WebAPI.Services;  
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
+using Newtonsoft.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 ///
@@ -38,7 +40,10 @@ builder.Services.AddCors(options => {
 ///
 
 // Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddNewtonsoftJson(x =>
+                                    {
+                                        x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                                    });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(

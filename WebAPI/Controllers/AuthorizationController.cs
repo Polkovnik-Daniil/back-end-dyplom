@@ -24,7 +24,9 @@ namespace WebAPI.Controllers {
         }
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult Login([FromBody] LoginModel loginModel) {
+        public async Task<IActionResult> Login([FromBody] LoginModel loginModel) {
+            _logger.LogInformation("/api/Authorization : post request");
+
             if (loginModel is null) {
                 return BadRequest("Invalid client request");
             }
@@ -37,6 +39,7 @@ namespace WebAPI.Controllers {
             }
             var claims = new[]
             {
+                new Claim(ClaimTypes.SerialNumber, user!.Id.ToString()),
                 new Claim(ClaimTypes.Email, user!.Email),
                 new Claim(ClaimTypes.GivenName, user.Name),
                 new Claim(ClaimTypes.Role, user.Role!.Name)

@@ -6,27 +6,27 @@ using Models;
 using Microsoft.AspNetCore.Authorization;
 
 namespace WebAPI.Controllers {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class AuthorsController : ControllerBase {
         private readonly ILogger<AuthorsController> _logger;
         private IUnitOfWork<AppDbContext> _unitOfWork;
         private IRepository<Author> _authorRepository;
         public AuthorsController(ILogger<AuthorsController> logger,
-                               IServiceProvider serviceProvider) {
+                                 IServiceProvider serviceProvider) {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _unitOfWork = serviceProvider.GetRequiredService<IUnitOfWork<AppDbContext>>() ?? throw new ArgumentNullException(nameof(serviceProvider));
             _authorRepository = _unitOfWork.GetRepository<Author>() ?? throw new ArgumentNullException(nameof(_unitOfWork));
         }
 
         [HttpGet]
-        public IList<Author> GetPage(int PageIndex = 0) {
+        public async Task<IList<Author>> GetPage(int PageIndex = 0) {
             _logger.LogInformation("/api/Author : get request");
             return _authorRepository.GetPagedList(pageIndex: PageIndex).Items;
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetItem(int id) {
+        public async Task<IActionResult> GetItem(int id) {
             _logger.LogInformation("/api/Author : get Id request");
             var result = _authorRepository.Find(id);
             if (result is null) {
@@ -37,7 +37,7 @@ namespace WebAPI.Controllers {
 
         [HttpPost]
         [Authorize(Roles = "Admin, Moderator")]
-        public IActionResult Post([FromBody] Author value) {
+        public async Task<IActionResult> Post([FromBody] Author value) {
             _logger.LogInformation("/api/Author : post request");
             var IsExistNewValue = _authorRepository.Find(value.Id) is not null;
             if (!IsExistNewValue) {
@@ -50,7 +50,7 @@ namespace WebAPI.Controllers {
 
         [HttpPut]
         [Authorize(Roles = "Admin, Moderator")]
-        public IActionResult Put([FromBody] Author value) {
+        public async Task<IActionResult> Put([FromBody] Author value) {
             _logger.LogInformation("/api/Author : put request");
             var oldValue = _authorRepository.Find(value.Id);
             if (oldValue is null) {
@@ -68,7 +68,7 @@ namespace WebAPI.Controllers {
 
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin, Moderator")]
-        public IActionResult Delete(int id) {
+        public async Task<IActionResult> Delete(int id) {
             _logger.LogInformation("/api/Author : delete request");
             var removedValue = _authorRepository.Find(id);
             if (removedValue is null) {

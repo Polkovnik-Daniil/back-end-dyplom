@@ -12,6 +12,7 @@ namespace DBManager {
         public DbSet<Author> Authors { get; set; }
         public DbSet<Reader> Readers { get; set; }
 
+        public DbSet<BookReader> BookReaders { get; set; }
 
         #endregion
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) {
@@ -73,6 +74,8 @@ namespace DBManager {
                     j.HasKey(t => new { t.ReaderId, t.BookId });
                     j.ToTable("BookReader");
                 });
+
+
 
             //modelBuilder.Entity<Role>().HasMany(ua => ua.Users)
             //                           .WithOne(u => u.RoleUser)

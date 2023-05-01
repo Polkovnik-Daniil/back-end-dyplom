@@ -23,13 +23,13 @@ namespace WebAPI.Controllers {
         }
 
         [HttpGet]
-        public IList<Role> GetPage(int PageIndex = 0) {
+        public async Task<IList<Role>> GetPage(int PageIndex = 0) {
             _logger.LogInformation("/api/Roles : get request");
             return _roleRepository.GetPagedList(pageIndex: PageIndex).Items;
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetItem(int id) {
+        public async Task<IActionResult> GetItem(int id) {
             _logger.LogInformation("/api/Roles : get Id request");
             var result = _roleRepository.Find(id);
             if (result is null) {
@@ -39,7 +39,7 @@ namespace WebAPI.Controllers {
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] Role value) {
+        public async Task<IActionResult> Post([FromBody] Role value) {
             _logger.LogInformation("/api/Roles : post request");
             var IsExistNewValue = _roleRepository.Find(value.Id) is not null;
             if (!IsExistNewValue) {
@@ -51,7 +51,7 @@ namespace WebAPI.Controllers {
         }
 
         [HttpPut]
-        public IActionResult Put([FromBody] Role value) {
+        public async Task<IActionResult> Put([FromBody] Role value) {
             _logger.LogInformation("/api/Roles : put request");
             var oldValue = _roleRepository.Find(value.Id);
             if(oldValue is null) {
@@ -68,7 +68,7 @@ namespace WebAPI.Controllers {
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id) {
+        public async Task<IActionResult> Delete(int id) {
             _logger.LogInformation("/api/Roles : delete request");
             var removedValue = _roleRepository.Find(id);
             if(removedValue is null) {
