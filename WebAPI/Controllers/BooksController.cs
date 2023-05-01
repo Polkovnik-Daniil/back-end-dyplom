@@ -25,7 +25,8 @@ namespace WebAPI.Controllers {
         public async Task<IList<Book>> GetPage(int PageIndex = 0) {
             _logger.LogInformation("/api/Book : get request");
             int count = _bookRepository.Count();
-            return _bookRepository.GetPagedList(pageIndex: PageIndex).Items;
+            return _bookRepository.GetPagedList(pageIndex: PageIndex,
+                                                include: i => i.Include(x => x.Genres)).Items;
         }
         [HttpGet, Route("CountPage")]
         public async Task<int> GetCountPage() {

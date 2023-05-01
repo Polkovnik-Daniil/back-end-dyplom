@@ -46,10 +46,11 @@ namespace WebAPI.Controllers {
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] BookReader value) {
             _logger.LogInformation("/api/History : post request");
-            var IsExistNewValue = _bookReadersRepository.GetFirstOrDefault(predicate: x => x == value) is not null;
+            var newValue = _bookReadersRepository.GetFirstOrDefault(predicate: x => x.Equals(value) && x.DateTimeEnd == value.DateTimeEnd && x.DateTimeStart == value.DateTimeStart);
+            var IsExistNewValue = newValue is not null;
             if (!IsExistNewValue) {
                 _bookReadersRepository.Insert(value);
-                await _unitOfWork.SaveChangesAsync();
+                _unitOfWork.SaveChanges();
                 return Ok("This value was added!");
             }
             return Ok("This value is exist!");
@@ -71,11 +72,14 @@ namespace WebAPI.Controllers {
             }
             return Ok("This value is actually");
         }
-        [HttpDelete("{id}")]
+        [HttpDelete("{readerId:int}/{bookId:int}/{start:datetime}/{end:datetime}")]
         [Authorize(Roles = "Admin, Moderator")]
-        public async Task<IActionResult> Delete(int id) {
+        public async Task<IActionResult> Delete(int readerId, int bookId, DateTime start, DateTime end) {
             _logger.LogInformation("/api/History : delete request");
-            var removedValue = _bookReadersRepository.Find(id);
+            var removedValue = _bookReadersRepository.GetFirstOrDefault(predicate: x => x.BookId == bookId 
+                                                                                    && x.ReaderId == readerId 
+                                                                                    && x.DateTimeStart == start 
+                                                                                    && x.DateTimeEnd == end);
             if (removedValue is null) {
                 return Ok("This value was deleted!");
             }

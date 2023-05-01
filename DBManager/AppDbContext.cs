@@ -22,6 +22,7 @@ namespace DBManager {
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
             modelBuilder.Entity<User>().HasIndex(u => u.Email).IsUnique();
             modelBuilder.Entity<Role>().HasIndex(u => u.Name).IsUnique();
+            modelBuilder.Entity<Genre>().HasIndex(u => u.Name).IsUnique();
 
             modelBuilder
                 .Entity<Book>()
