@@ -12,15 +12,13 @@ using System.Security.Principal;
 namespace WebAPI.Filter {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class LocalAuthorizationAttribute : Attribute, IAuthorizationFilter {
-        private IUnitOfWork<AppDbContext> _unitOfWork;
-        private IRepository<User> _userRepository;
         public void OnAuthorization(AuthorizationFilterContext context) {
             if (context.HttpContext.User.Claims.Count() <= 0) {
                 context.Result = new ForbidResult();
                 return;
             }
-            _unitOfWork = context.HttpContext.RequestServices.GetRequiredService<IUnitOfWork<AppDbContext>>() ?? throw new ArgumentNullException(nameof(context));
-            _userRepository = _unitOfWork.GetRepository<User>() ?? throw new ArgumentNullException(nameof(_unitOfWork));
+            IUnitOfWork<AppDbContext> _unitOfWork = context.HttpContext.RequestServices.GetRequiredService<IUnitOfWork<AppDbContext>>() ?? throw new ArgumentNullException(nameof(context));
+            IRepository<User> _userRepository = _unitOfWork.GetRepository<User>() ?? throw new ArgumentNullException(nameof(_unitOfWork));
             int userId = int.Parse(context.HttpContext.User.Claims.ElementAt(0).Value);
             IEnumerable<Claim> Claims = context.HttpContext.User.Claims;
             User? user = _userRepository.Find(userId);
