@@ -17,6 +17,7 @@ namespace DBManager {
         #endregion
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) {
             Database.EnsureCreated();
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
@@ -58,7 +59,6 @@ namespace DBManager {
                     j.HasKey(t => new { t.GenreId, t.BookId });
                     j.ToTable("BookGenre");
                 });
-
             modelBuilder.Entity<Book>()
                 .HasMany(c => c.Readers)
                 .WithMany(s => s.Books)
@@ -76,14 +76,21 @@ namespace DBManager {
                     j.ToTable("BookReader");
                 });
 
+            //Первые инициализируемые значения
+            modelBuilder.Entity<Role>().HasData(
+                new Role[] {
+                    new Role { Id = 1, Name = "Admin"       },
+                    new Role { Id = 2, Name = "Moderator"   },
+                    new Role { Id = 3, Name = "User"        }
+            });
 
 
-            //modelBuilder.Entity<Role>().HasMany(ua => ua.Users)
-            //                           .WithOne(u => u.RoleUser)
-            //                           .HasForeignKey(u => u.IdRole)
-            //                           .OnDelete(DeleteBehavior.ClientSetNull);
-            //modelBuilder.Entity<User>().HasMany(ua => ua.OrdersClients).WithOne(u => u.Client).HasForeignKey(u => u.IdClient).OnDelete(DeleteBehavior.ClientSetNull);
-            //modelBuilder.Entity<User>().HasMany(ua => ua.OrdersMasters).WithOne(u => u.Master).HasForeignKey(u => u.IdMaster).OnDelete(DeleteBehavior.ClientSetNull);
+            modelBuilder.Entity<User>().HasData(
+                new User[] { 
+                    new User { Id = 1, Email = "admin@example.com",     Name = "admin",      Password = "string", IsLocked = false, RoleId = 1 },
+                    new User { Id = 2, Email = "moderator@example.com", Name = "modeartor",  Password = "string", IsLocked = false, RoleId = 2 },
+                    new User { Id = 3, Email = "user@example.com",      Name = "user",       Password = "string", IsLocked = false, RoleId = 3 }
+            });
         }
     }
 }

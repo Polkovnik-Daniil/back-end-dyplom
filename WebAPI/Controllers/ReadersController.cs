@@ -5,10 +5,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Models;
+using WebAPI.Filter;
 
 namespace WebAPI.Controllers {
     [Route("api/[controller]")]
     [ApiController]
+    [LocalAuthorization]
     public class ReadersController : ControllerBase {
         private readonly ILogger<ReadersController> _logger; //для логов
         private IUnitOfWork<AppDbContext> _unitOfWork;

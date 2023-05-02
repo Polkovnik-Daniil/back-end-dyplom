@@ -4,10 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Models;
 using Microsoft.AspNetCore.Authorization;
+using WebAPI.Filter;
 
 namespace WebAPI.Controllers {
     [ApiController]
     [Route("api/[controller]")]
+    [LocalAuthorization]
     public class AuthorsController : ControllerBase {
         private readonly ILogger<AuthorsController> _logger;
         private IUnitOfWork<AppDbContext> _unitOfWork;

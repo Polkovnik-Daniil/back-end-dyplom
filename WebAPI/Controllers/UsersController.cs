@@ -5,11 +5,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Models;
 using Microsoft.AspNetCore.Authorization;
+using WebAPI.Filter;
 
 namespace WebAPI.Controllers {
     [ApiController, 
      Authorize(Roles = "Admin"), 
      Route("api/[controller]")]
+     [LocalAuthorization]
     public class UsersController : ControllerBase {
         private readonly ILogger<UsersController> _logger;
         private IUnitOfWork<AppDbContext> _unitOfWork;

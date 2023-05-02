@@ -17,6 +17,10 @@ namespace Models {
         /// </summary>
         public DateTime? Realise { get; set; }
         /// <summary>
+        /// Количество книг
+        /// </summary>
+        public int? Count { get; set; }
+        /// <summary>
         /// Количество страниц
         /// </summary>
         public int? Quantity { get; set; }

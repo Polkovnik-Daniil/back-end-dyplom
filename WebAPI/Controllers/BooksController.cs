@@ -5,10 +5,13 @@ using Microsoft.AspNetCore.Mvc;
 using Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using WebAPI.Filter;
 
 namespace WebAPI.Controllers {
     [Route("api/[controller]")]
     [ApiController]
+    [LocalAuthorization]
     public class BooksController : ControllerBase {
         private readonly ILogger<BooksController> _logger; //для логов
         private IUnitOfWork<AppDbContext> _unitOfWork;

@@ -6,20 +6,25 @@ using Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
+using System.Security.Claims;
+using WebAPI.Filter;
 
 namespace WebAPI.Controllers {
     [Authorize]
     [ApiController]
     [Route("api/History")]
+    [LocalAuthorization]
     public class BookReadersController : ControllerBase {
         private readonly ILogger<AuthorsController> _logger;
         private IUnitOfWork<AppDbContext> _unitOfWork;
         private IRepository<BookReader> _bookReadersRepository;
+        private IRepository<User> _userRepository;
         public BookReadersController(ILogger<AuthorsController> logger,
                                      IServiceProvider serviceProvider) {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _unitOfWork = serviceProvider.GetRequiredService<IUnitOfWork<AppDbContext>>() ?? throw new ArgumentNullException(nameof(serviceProvider));
             _bookReadersRepository = _unitOfWork.GetRepository<BookReader>() ?? throw new ArgumentNullException(nameof(_unitOfWork));
+            _userRepository = _unitOfWork.GetRepository<User>() ?? throw new ArgumentNullException(nameof(_unitOfWork));
         }
         [HttpGet]
         public async Task<IList<BookReader>> GetPage(int PageIndex = 0) {
@@ -45,7 +50,7 @@ namespace WebAPI.Controllers {
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] BookReader value) {
-            _logger.LogInformation("/api/History : post request");
+            _logger.LogInformation("/api/History : post request");            
             var newValue = _bookReadersRepository.GetFirstOrDefault(predicate: x => x.Equals(value) && x.DateTimeEnd == value.DateTimeEnd && x.DateTimeStart == value.DateTimeStart);
             var IsExistNewValue = newValue is not null;
             if (!IsExistNewValue) {
@@ -59,6 +64,11 @@ namespace WebAPI.Controllers {
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] BookReader value) {
             _logger.LogInformation("/api/History : put request");
+
+            var identity = (ClaimsIdentity)User.Identity!;
+            IEnumerable<Claim> claims = identity!.Claims;
+            User? user = _userRepository.Find(int.Parse(claims.First().Value));
+
             var oldValue = _bookReadersRepository.GetFirstOrDefault(predicate: x => x == value);
             if (oldValue is null) {
                 BadRequest("Values is not exist!");

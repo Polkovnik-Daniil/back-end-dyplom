@@ -4,11 +4,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using System.Security.Claims;
+using WebAPI.Filter;
 
 namespace WebAPI.Controllers {
     [Route("api/[controller]")]
     [Authorize(Roles = "Admin")]
     [ApiController]
+    [LocalAuthorization]
     public class RegistrationController : ControllerBase {
         private readonly ILogger<RegistrationController> _logger; //для логов
         private readonly ITokenService _tokenService;
@@ -33,7 +35,8 @@ namespace WebAPI.Controllers {
                 return BadRequest("User with this email is already registered!");
             var claims = new[]
             {
-                new Claim(ClaimTypes.SerialNumber, user!.Id.ToString()),
+                new Claim(ClaimTypes.SerialNumber, user!.Id.ToString()), //Хранит Id пользователя
+                new Claim(ClaimTypes.Expiration, user!.IsLocked.ToString()), //Хранит статус пользователя
                 new Claim(ClaimTypes.Email, newUser!.Email),
                 new Claim(ClaimTypes.GivenName, newUser.Name),
                 new Claim(ClaimTypes.Role, "User")

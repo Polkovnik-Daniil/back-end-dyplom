@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Models;
+using WebAPI.Filter;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -11,6 +12,7 @@ namespace WebAPI.Controllers {
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(Roles = "Admin")]
+    [LocalAuthorization]
     public class RolesController : ControllerBase {
         private readonly ILogger<RolesController> _logger;
         private IUnitOfWork<AppDbContext> _unitOfWork;

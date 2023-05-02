@@ -5,6 +5,7 @@ using Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using WebAPI.Filter;
 
 namespace WebAPI.Controllers {
     [Route("api/[controller]")]
@@ -39,7 +40,8 @@ namespace WebAPI.Controllers {
             }
             var claims = new[]
             {
-                new Claim(ClaimTypes.SerialNumber, user!.Id.ToString()),
+                new Claim(ClaimTypes.SerialNumber, user!.Id.ToString()), //Хранит Id пользователя
+                new Claim(ClaimTypes.Expiration, user!.IsLocked.ToString()), //Хранит статус пользователя
                 new Claim(ClaimTypes.Email, user!.Email),
                 new Claim(ClaimTypes.GivenName, user.Name),
                 new Claim(ClaimTypes.Role, user.Role!.Name)

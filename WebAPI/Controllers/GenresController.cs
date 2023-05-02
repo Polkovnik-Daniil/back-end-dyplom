@@ -5,10 +5,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Models;
+using WebAPI.Filter;
 
 namespace WebAPI.Controllers {
     [Route("api/[controller]")]
     [ApiController]
+    [LocalAuthorization]
     public class GenresController : ControllerBase {
         private readonly ILogger<GenresController> _logger;
         private IUnitOfWork<AppDbContext> _unitOfWork;
