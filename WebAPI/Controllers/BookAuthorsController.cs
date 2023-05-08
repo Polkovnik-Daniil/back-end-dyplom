@@ -79,7 +79,7 @@ namespace WebAPI.Controllers {
             _unitOfWork.DbContext.Entry(removedValue!).State = EntityState.Detached; //убираю отслеживание, для того, чтобы можно было обновить значение
             _bookAuthorRepository.Delete(removedValue!);
             _unitOfWork.SaveChanges();
-            return Ok("This value is deleted!");
+                return Ok("This value is deleted!");
         }
     }
 }
