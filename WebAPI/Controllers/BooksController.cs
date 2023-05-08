@@ -39,7 +39,7 @@ namespace WebAPI.Controllers {
         }
         [HttpGet, Route("CountPage")]
         public async Task<int> GetCountPage() {
-            int count = _bookRepository.Count();
+            int count = await _bookRepository.CountAsync();
             return count % 20 == 0 ? (count / 20) : ((count / 20) + 1);
         }
         [HttpGet("{id}")]
