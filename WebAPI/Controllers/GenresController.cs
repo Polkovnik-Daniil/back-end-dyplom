@@ -25,7 +25,8 @@ namespace WebAPI.Controllers {
         [HttpGet]
         public async Task<IList<Genre>> GetPage(int PageIndex = 0) {
             _logger.LogInformation("/api/Author : get request");
-            return _genreRepository.GetPagedList(pageIndex: PageIndex).Items;
+            return _genreRepository.GetPagedList(pageIndex: PageIndex,
+                                                pageSize: 100).Items;
         }
 
         [HttpGet("{id}")]
@@ -39,7 +40,7 @@ namespace WebAPI.Controllers {
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin, Moderator, User")]
+        [Authorize(Roles = "Admin, Moderator")]
         public async Task<IActionResult> Post([FromBody] Genre value) {
             _logger.LogInformation("/api/Author : post request");
             var IsExistNewValue = _genreRepository.Find(value.Id) is not null;

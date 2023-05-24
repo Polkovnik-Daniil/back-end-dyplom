@@ -17,7 +17,9 @@ namespace WebAPI.Controllers {
         private IUnitOfWork<AppDbContext> _unitOfWork;
         private IRepository<Book> _bookRepository;
         private IRepository<Genre> _genreRepository;
+        private IRepository<Author> _authorRepository;
         private IRepository<BookGenre> _bookGenreRepository;
+        private IRepository<BookAuthor> _bookAuthorRepository;
 
 
         public BooksController(ILogger<BooksController> logger,
@@ -27,7 +29,10 @@ namespace WebAPI.Controllers {
             _unitOfWork = serviceProvider.GetRequiredService<IUnitOfWork<AppDbContext>>() ?? throw new ArgumentNullException(nameof(serviceProvider));
             _bookRepository = _unitOfWork.GetRepository<Book>() ?? throw new ArgumentNullException(nameof(_unitOfWork));
             _genreRepository = _unitOfWork.GetRepository<Genre>() ?? throw new ArgumentNullException(nameof(_unitOfWork));
+            _authorRepository = _unitOfWork.GetRepository<Author>() ?? throw new ArgumentNullException(nameof(_unitOfWork));
             _bookGenreRepository = _unitOfWork.GetRepository<BookGenre>() ?? throw new ArgumentNullException(nameof(_unitOfWork));
+            _bookAuthorRepository = _unitOfWork.GetRepository<BookAuthor>() ?? throw new ArgumentNullException(nameof(_unitOfWork));
+
         }
 
         [HttpGet]
@@ -35,7 +40,9 @@ namespace WebAPI.Controllers {
             _logger.LogInformation("/api/Book : get request");
             int count = _bookRepository.Count();
             return _bookRepository.GetPagedList(pageIndex: PageIndex,
-                                                include: i => i.Include(x => x.Genres)).Items;
+                                                include: i => i.Include(x => x.Genres)
+                                                               .Include(x => x.Authors),
+                                                pageSize: 1000).Items;
         }
         [HttpGet, Route("CountPage")]
         public async Task<int> GetCountPage() {
@@ -55,23 +62,34 @@ namespace WebAPI.Controllers {
         [HttpPost, Authorize(Roles = "Admin, Moderator")]
         public async Task<IActionResult> Post([FromBody] Book value) {
             _logger.LogInformation("/api/Book : post request");
-            _unitOfWork.DbContext.Entry(value!).State = EntityState.Detached;
             var IsExistNewValue = _bookRepository.GetFirstOrDefault(predicate: x=>x.Realise == value.Realise && x.Title == value.Title && x.Quantity == value.Quantity) is not null;
             if (!IsExistNewValue) {
-                var temp = value.Genres != null && value.Genres.Count != 0 ? value.Genres.Select(g => _genreRepository.GetFirstOrDefault(predicate: x => x.Name == g.Name)).ToList() : null;
+                var tempGenre = value.Genres != null && value.Genres.Count != 0 ? value.Genres.Select(g => _genreRepository.GetFirstOrDefault(predicate: x => x.Name == g.Name)).ToList() : null;
+                var tempAuthor = value.Authors != null && value.Authors.Count != 0 ? value.Authors.Select(g => _authorRepository.GetFirstOrDefault(predicate: x => x.Name == g.Name)).ToList() : null;
+
                 value.Genres = null;
+                value.Authors = null;
                 _bookRepository.Insert(value);
                 _unitOfWork.SaveChanges();
-                if (temp is not null) {
-                    var bookId = _bookRepository.GetFirstOrDefault(predicate: x => x.Realise == value.Realise && x.Title == value.Title && x.Quantity == value.Quantity).Id;
-                    for (int i = 0; i < temp.Count; i++) {
-                        var isExist = _bookGenreRepository.GetFirstOrDefault(predicate: x => x.BookId == temp[i].Id && x.GenreId == temp[i].Id) is not null;
+                var bookId = _bookRepository.GetFirstOrDefault(predicate: x => x.Realise == value.Realise && x.Title == value.Title && x.Quantity == value.Quantity).Id;
+                if (tempGenre is not null) {
+                    for (int i = 0; i < tempGenre.Count; i++) {
+                        var isExist = _bookGenreRepository.GetFirstOrDefault(predicate: x => x.BookId == bookId && x.GenreId == tempGenre[i].Id) is not null;
                         if (!isExist) {
-                            _bookGenreRepository.Insert(new BookGenre() { BookId = bookId, GenreId = temp[i].Id });
+                            _bookGenreRepository.Insert(new BookGenre() { BookId = bookId, GenreId = tempGenre[i].Id });
                         }
                     }
-                    _unitOfWork.SaveChanges();
                 }
+                _unitOfWork.SaveChanges();
+                if (tempAuthor is not null) {
+                    for (int i = 0; i < tempAuthor.Count; i++) {
+                        var isExist = _bookAuthorRepository.GetFirstOrDefault(predicate: x => x.BookId == bookId && x.AuthorId == tempAuthor[i].Id) is not null;
+                        if (!isExist) {
+                            _bookAuthorRepository.Insert(new BookAuthor() { BookId = bookId, AuthorId = tempAuthor[i].Id });
+                        }
+                    }
+                }
+                _unitOfWork.SaveChanges();
                 return Ok("This value was added!");
             }
             return Ok("This value is exist!");

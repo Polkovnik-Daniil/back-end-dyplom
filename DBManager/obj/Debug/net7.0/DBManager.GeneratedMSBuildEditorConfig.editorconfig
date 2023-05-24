@@ -8,4 +8,4 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = DBManager
-build_property.ProjectDir = D:\Danik\Intertenament\WebAPI\DBManager\
+build_property.ProjectDir = D:\Intertenament\WebAPI\DBManager\

@@ -3200,23 +3200,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\ADMINISTRATOR\\.nuget\\packages\\": {},
-    "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\Администратор\\.nuget\\packages\\": {},
+    "D:\\Programs\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Danik\\Intertenament\\WebAPI\\DBManager\\DBManager.csproj",
+      "projectUniqueName": "D:\\Intertenament\\WebAPI\\DBManager\\DBManager.csproj",
       "projectName": "DBManager",
-      "projectPath": "D:\\Danik\\Intertenament\\WebAPI\\DBManager\\DBManager.csproj",
-      "packagesPath": "C:\\Users\\ADMINISTRATOR\\.nuget\\packages\\",
-      "outputPath": "D:\\Danik\\Intertenament\\WebAPI\\DBManager\\obj\\",
+      "projectPath": "D:\\Intertenament\\WebAPI\\DBManager\\DBManager.csproj",
+      "packagesPath": "C:\\Users\\Администратор\\.nuget\\packages\\",
+      "outputPath": "D:\\Intertenament\\WebAPI\\DBManager\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        "D:\\Programs\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\ADMINISTRATOR\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Администратор\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -3231,8 +3231,8 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "D:\\Danik\\Intertenament\\WebAPI\\Models\\Models.csproj": {
-              "projectPath": "D:\\Danik\\Intertenament\\WebAPI\\Models\\Models.csproj"
+            "D:\\Intertenament\\WebAPI\\Models\\Models.csproj": {
+              "projectPath": "D:\\Intertenament\\WebAPI\\Models\\Models.csproj"
             }
           }
         }
@@ -3272,7 +3272,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
       }
     }
   }

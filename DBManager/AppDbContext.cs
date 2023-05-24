@@ -16,9 +16,6 @@ namespace DBManager {
         public DbSet<BookReader> BookReaders { get; set; }
         public DbSet<BookGenre> BookGenres { get; set; }
         public DbSet<BookAuthor> BookAuthors { get; set; }
-
-
-
         #endregion
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) {
             Database.EnsureCreated();
@@ -88,11 +85,10 @@ namespace DBManager {
                     new Role { Id = 3, Name = "User"        }
                 });
 
-
             modelBuilder.Entity<User>().HasData(
                 new User[] {
                     new User { Id = 1, Email = "admin@example.com",     Name = "admin",      Password = "string", IsLocked = false, RoleId = 1 },
-                    new User { Id = 2, Email = "moderator@example.com", Name = "modeartor",  Password = "string", IsLocked = false, RoleId = 2 },
+                    new User { Id = 2, Email = "moderator@example.com", Name = "moderator",  Password = "string", IsLocked = false, RoleId = 2 },
                     new User { Id = 3, Email = "user@example.com",      Name = "user",       Password = "string", IsLocked = false, RoleId = 3 }
                 });
         }

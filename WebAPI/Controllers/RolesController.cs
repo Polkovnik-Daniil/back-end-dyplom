@@ -27,7 +27,8 @@ namespace WebAPI.Controllers {
         [HttpGet]
         public async Task<IList<Role>> GetPage(int PageIndex = 0) {
             _logger.LogInformation("/api/Roles : get request");
-            return _roleRepository.GetPagedList(pageIndex: PageIndex).Items;
+            return _roleRepository.GetPagedList(pageIndex: PageIndex,
+                                                pageSize: 100).Items;
         }
 
         [HttpGet("{id}")]

@@ -31,7 +31,8 @@ namespace WebAPI.Controllers {
             _logger.LogInformation("/api/History : get request");
             return _bookReadersRepository.GetPagedList(pageIndex: PageIndex,
                                                        include: i => i.Include(x => x.Book)
-                                                                      .Include(x => x.Reader)).Items;
+                                                                      .Include(x => x.Reader),
+                                                pageSize: 100).Items;
         }
         [HttpGet, Route("CountPage")]
         public async Task<int> GetCountPage() {

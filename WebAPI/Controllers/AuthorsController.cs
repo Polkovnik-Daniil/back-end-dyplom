@@ -24,7 +24,8 @@ namespace WebAPI.Controllers {
         [HttpGet]
         public async Task<IList<Author>> GetPage(int PageIndex = 0) {
             _logger.LogInformation("/api/Author : get request");
-            return _authorRepository.GetPagedList(pageIndex: PageIndex).Items;
+            return _authorRepository.GetPagedList(pageIndex: PageIndex,
+                                                pageSize: 100).Items;
         }
 
         [HttpGet("{id}")]

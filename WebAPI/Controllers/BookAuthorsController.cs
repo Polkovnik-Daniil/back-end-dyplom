@@ -24,7 +24,8 @@ namespace WebAPI.Controllers {
             _logger.LogInformation("/api/Authorship : get request");
             return _bookAuthorRepository.GetPagedList(pageIndex: PageIndex,
                                                       include: i => i.Include(x => x.Book)
-                                                                     .Include(x => x.Author)).Items;
+                                                                     .Include(x => x.Author),
+                                                      pageSize: 1000).Items;
         }
 
         [HttpGet("{authorId:int}/{bookId:int}")]
