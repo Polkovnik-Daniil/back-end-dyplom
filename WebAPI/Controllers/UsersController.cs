@@ -44,13 +44,13 @@ namespace WebAPI.Controllers {
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] User value) {
             _logger.LogInformation("/api/Roles : post request");
-            var IsExistNewValue = _userRepository.Find(value.Id) is not null;
+            var IsExistNewValue = _userRepository.GetFirstOrDefault(predicate: x=> x.Email == value.Email) is not null;
             if (!IsExistNewValue) {
                 _userRepository.Insert(value);
                 _unitOfWork.SaveChanges();
                 return Ok("This value was added!");
             }
-            return Ok("This value is exist!");
+            return StatusCode(420);
         }
 
         [HttpPut]
@@ -58,7 +58,7 @@ namespace WebAPI.Controllers {
             _logger.LogInformation("/api/Roles : put request");
             var oldValue = _userRepository.Find(value.Id);
             if (oldValue is null) {
-                BadRequest("Values is not exist!");
+                StatusCode(420);
             }
             _unitOfWork.DbContext.Entry(oldValue!).State = EntityState.Detached; //убираю отслеживание, для того, чтобы можно было обновить значение
             bool IsEqualOldValue = oldValue!.Equals(value);

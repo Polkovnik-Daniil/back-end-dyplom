@@ -99,14 +99,18 @@ namespace WebAPI.Controllers {
         public async Task<IActionResult> Put([FromBody] Book value) {
             _logger.LogInformation("/api/Book : put request");
             var oldValue = _bookRepository.Find(value.Id);
+            _unitOfWork.DbContext.Entry(value!).State = EntityState.Detached; //убираю отслеживание, для того, чтобы можно было обновить значение
             _unitOfWork.DbContext.Entry(oldValue!).State = EntityState.Detached; //убираю отслеживание, для того, чтобы можно было обновить значение
             if (oldValue is null) {
                 BadRequest("Values is not exist!");
             }
             value.Genres = value.Genres != null && value.Genres.Count != 0 ? value.Genres.Select(g => _genreRepository.GetFirstOrDefault(predicate: x => x.Name == g.Name)).ToList() : null;
+            var tempAuthor = value.Authors != null && value.Authors.Count != 0 ? value.Authors.Select(g => _authorRepository.GetFirstOrDefault(predicate: x => x.Name == g.Name)).ToList() : null;
+            value.Authors = null;
             bool IsEqualOldValue = oldValue!.Equals(value);
             if (!IsEqualOldValue) {
                 value.Genres = value.Genres != null && value.Genres.Count != 0 ? value.Genres.Select(g => _genreRepository.GetFirstOrDefault(predicate: x => x.Name == g.Name)).ToList() : null;
+
                 IList<BookGenre> deletedList = _bookGenreRepository.GetPagedList(predicate: x => x.BookId == value.Id, pageSize: _bookGenreRepository.Count()).Items;
                 for (int i = 0; i < value.Genres.Count; i++) {
                     var isExist = _bookGenreRepository.GetFirstOrDefault(predicate: x => x.BookId == value.Id && x.GenreId == value.Genres[i].Id) is not null;
@@ -119,7 +123,34 @@ namespace WebAPI.Controllers {
                         i--;
                     }
                 }
+                
                 _bookGenreRepository.Delete(deletedList);
+                _bookRepository.Update(value);
+                _unitOfWork.SaveChanges();
+                value.Authors = tempAuthor;
+                value.Authors = value.Authors != null && value.Authors.Count != 0 ? value.Authors.Select(g => _authorRepository.GetFirstOrDefault(predicate: x => x.Name == g.Name)).ToList() : null;
+                IList<BookAuthor> deletedListAuthors = _bookAuthorRepository.GetPagedList(predicate: x => x.BookId == value.Id, pageSize: _bookAuthorRepository.Count()).Items;
+                for(int i = 0; i < value.Authors.Count; i++)
+                {
+                    Console.WriteLine(i + "\n");
+                    Console.WriteLine(value.Authors[i].Id + "\n");
+                    _unitOfWork.DbContext.Entry(value!).State = EntityState.Detached; //убираю отслеживание, для того, чтобы можно было обновить значение
+
+                    var isExist = _bookAuthorRepository.GetFirstOrDefault(predicate: x => x.BookId == value.Id && x.AuthorId ==  value.Authors[i].Id) is not null;
+                    if(!isExist)
+                    {
+                        _bookAuthorRepository.Insert(new BookAuthor() { BookId = value.Id, AuthorId = value.Authors[i].Id });
+                    }
+                    else
+                    {
+
+                        var deletedValue = deletedListAuthors.Where(x => x.AuthorId ==  value.Authors[i].Id && x.BookId == value.Id).First();
+                        value.Authors.Remove(value.Authors[i]);
+                        deletedListAuthors.Remove(deletedValue);
+                        i--;
+                    }
+                }
+                _bookAuthorRepository.Delete(deletedListAuthors);
                 _bookRepository.Update(value);
                 _unitOfWork.SaveChanges();
                 return Ok("This value is update!");
