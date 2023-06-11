@@ -66,7 +66,8 @@ namespace WebAPI.Controllers {
             if (!IsExistNewValue) {
                 var tempGenre = value.Genres != null && value.Genres.Count != 0 ? value.Genres.Select(g => _genreRepository.GetFirstOrDefault(predicate: x => x.Name == g.Name)).ToList() : null;
                 var tempAuthor = value.Authors != null && value.Authors.Count != 0 ? value.Authors.Select(g => _authorRepository.GetFirstOrDefault(predicate: x => x.Name == g.Name)).ToList() : null;
-
+                tempGenre = tempGenre.Where(x => x != null).ToList();
+                tempAuthor = tempAuthor.Where(x => x != null).ToList();
                 value.Genres = null;
                 value.Authors = null;
                 _bookRepository.Insert(value);
@@ -106,21 +107,32 @@ namespace WebAPI.Controllers {
             }
             value.Genres = value.Genres != null && value.Genres.Count != 0 ? value.Genres.Select(g => _genreRepository.GetFirstOrDefault(predicate: x => x.Name == g.Name)).ToList() : null;
             var tempAuthor = value.Authors != null && value.Authors.Count != 0 ? value.Authors.Select(g => _authorRepository.GetFirstOrDefault(predicate: x => x.Name == g.Name)).ToList() : null;
+            value.Genres = value.Genres.Where(x => x != null).ToList();
+            tempAuthor = tempAuthor.Where(x => x != null).ToList();
             value.Authors = null;
             bool IsEqualOldValue = oldValue!.Equals(value);
-            if (!IsEqualOldValue) {
+            if(!IsEqualOldValue) {
                 value.Genres = value.Genres != null && value.Genres.Count != 0 ? value.Genres.Select(g => _genreRepository.GetFirstOrDefault(predicate: x => x.Name == g.Name)).ToList() : null;
 
                 IList<BookGenre> deletedList = _bookGenreRepository.GetPagedList(predicate: x => x.BookId == value.Id, pageSize: _bookGenreRepository.Count()).Items;
-                for (int i = 0; i < value.Genres.Count; i++) {
-                    var isExist = _bookGenreRepository.GetFirstOrDefault(predicate: x => x.BookId == value.Id && x.GenreId == value.Genres[i].Id) is not null;
-                    if (!isExist) {
-                        _bookGenreRepository.Insert(new BookGenre() { BookId = value.Id, GenreId = value.Genres[i].Id });
-                    } else {
-                        var deletedValue = deletedList.Where(x => x.GenreId == value.Genres[i].Id && x.BookId == value.Id).First();
-                        value.Genres.Remove(value.Genres[i]);
-                        deletedList.Remove(deletedValue);
-                        i--;
+                if(value.Genres != null)
+                {
+                    for(int i = 0; i < value.Genres.Count; i++)
+                    {
+                        var isExist = _bookGenreRepository.GetFirstOrDefault(predicate: x => x.BookId == value.Id && x.GenreId == value.Genres[i].Id) is not null;
+                        if(!isExist)
+                        {
+                            _bookGenreRepository.Insert(new BookGenre() { BookId = value.Id, GenreId = value.Genres[i].Id });
+                            value.Genres.Remove(value.Genres[i]);
+                            i--;
+                        }
+                        else
+                        {
+                            var deletedValue = deletedList.Where(x => x.GenreId == value.Genres[i].Id && x.BookId == value.Id).First();
+                            value.Genres.Remove(value.Genres[i]);
+                            deletedList.Remove(deletedValue);
+                            i--;
+                        }
                     }
                 }
                 
@@ -130,25 +142,31 @@ namespace WebAPI.Controllers {
                 value.Authors = tempAuthor;
                 value.Authors = value.Authors != null && value.Authors.Count != 0 ? value.Authors.Select(g => _authorRepository.GetFirstOrDefault(predicate: x => x.Name == g.Name)).ToList() : null;
                 IList<BookAuthor> deletedListAuthors = _bookAuthorRepository.GetPagedList(predicate: x => x.BookId == value.Id, pageSize: _bookAuthorRepository.Count()).Items;
-                for(int i = 0; i < value.Authors.Count; i++)
+                if(value.Authors != null)
                 {
-                    Console.WriteLine(i + "\n");
-                    Console.WriteLine(value.Authors[i].Id + "\n");
-                    _unitOfWork.DbContext.Entry(value!).State = EntityState.Detached; //убираю отслеживание, для того, чтобы можно было обновить значение
-
-                    var isExist = _bookAuthorRepository.GetFirstOrDefault(predicate: x => x.BookId == value.Id && x.AuthorId ==  value.Authors[i].Id) is not null;
-                    if(!isExist)
+                    for(int i = 0; i < value.Authors.Count; i++)
                     {
-                        _bookAuthorRepository.Insert(new BookAuthor() { BookId = value.Id, AuthorId = value.Authors[i].Id });
-                    }
-                    else
-                    {
+                        Console.WriteLine(i + "\n");
+                        Console.WriteLine(value.Authors[i].Id + "\n");
+                        _unitOfWork.DbContext.Entry(value!).State = EntityState.Detached; //убираю отслеживание, для того, чтобы можно было обновить значение
 
-                        var deletedValue = deletedListAuthors.Where(x => x.AuthorId ==  value.Authors[i].Id && x.BookId == value.Id).First();
-                        value.Authors.Remove(value.Authors[i]);
-                        deletedListAuthors.Remove(deletedValue);
-                        i--;
+                        var isExist = _bookAuthorRepository.GetFirstOrDefault(predicate: x => x.BookId == value.Id && x.AuthorId ==  value.Authors[i].Id) is not null;
+                        if(!isExist)
+                        {
+                            _bookAuthorRepository.Insert(new BookAuthor() { BookId = value.Id, AuthorId = value.Authors[i].Id });
+                            value.Authors.Remove(value.Authors[i]);
+                            i--;
+                        }
+                        else
+                        {
+
+                            var deletedValue = deletedListAuthors.Where(x => x.AuthorId ==  value.Authors[i].Id && x.BookId == value.Id).First();
+                            value.Authors.Remove(value.Authors[i]);
+                            deletedListAuthors.Remove(deletedValue);
+                            i--;
+                        }
                     }
+                    value.BookAuthors = null;
                 }
                 _bookAuthorRepository.Delete(deletedListAuthors);
                 _bookRepository.Update(value);
