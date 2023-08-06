@@ -3200,23 +3200,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Администратор\\.nuget\\packages\\": {},
-    "D:\\Programs\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\Пользователь\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Intertenament\\WebAPI\\DBManager\\DBManager.csproj",
+      "projectUniqueName": "C:\\Users\\Пользователь\\Desktop\\Серверная часть\\DBManager\\DBManager.csproj",
       "projectName": "DBManager",
-      "projectPath": "D:\\Intertenament\\WebAPI\\DBManager\\DBManager.csproj",
-      "packagesPath": "C:\\Users\\Администратор\\.nuget\\packages\\",
-      "outputPath": "D:\\Intertenament\\WebAPI\\DBManager\\obj\\",
+      "projectPath": "C:\\Users\\Пользователь\\Desktop\\Серверная часть\\DBManager\\DBManager.csproj",
+      "packagesPath": "C:\\Users\\Пользователь\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Пользователь\\Desktop\\Серверная часть\\DBManager\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "D:\\Programs\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\Администратор\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Пользователь\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -3225,14 +3225,15 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "D:\\Intertenament\\WebAPI\\Models\\Models.csproj": {
-              "projectPath": "D:\\Intertenament\\WebAPI\\Models\\Models.csproj"
+            "C:\\Users\\Пользователь\\Desktop\\Серверная часть\\Models\\Models.csproj": {
+              "projectPath": "C:\\Users\\Пользователь\\Desktop\\Серверная часть\\Models\\Models.csproj"
             }
           }
         }
@@ -3272,7 +3273,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.306\\RuntimeIdentifierGraph.json"
       }
     }
   }
