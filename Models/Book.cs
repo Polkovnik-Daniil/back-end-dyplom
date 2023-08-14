@@ -3,26 +3,11 @@
 namespace Models {
     public class Book {
         #region Fields
-        /// <summary>
-        /// Id книги
-        /// </summary>
         [Key]
         public int Id { get; set; }
-        /// <summary>
-        /// Название книги
-        /// </summary>
         public string Title { get; set; }
-        /// <summary>
-        /// Дата публикации
-        /// </summary>
         public DateTime? Realise { get; set; }
-        /// <summary>
-        /// Количество книг
-        /// </summary>
         public int? Count { get; set; }
-        /// <summary>
-        /// Количество страниц
-        /// </summary>
         public int? Quantity { get; set; }
         public IList<Author>? Authors { get; set; } // BookAuthor
         public IList<BookAuthor>? BookAuthors { get; set; }

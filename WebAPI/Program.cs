@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using WebAPI.Services;  
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
+using WebAPI.Helpers;
 
 
 // Early init of NLog to allow startup and exception logging, before host is built
@@ -21,6 +22,9 @@ try
 
     var builder = WebApplication.CreateBuilder(args);
 
+    // Add services to the container.
+    builder.Services.AddAutoMapper(typeof(AutoMappingProfiles).Assembly);
+    // Get DB path for App
     string? connection = builder.Configuration.GetConnectionString("DefaultConnection");
     builder.Services.AddDbContext<AppDbContext>(options =>
                                                     options.UseSqlServer(connection));

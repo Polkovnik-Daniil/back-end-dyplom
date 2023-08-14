@@ -35,7 +35,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                _logger.LogInformation("/api/History : get request");
+                _logger.LogInformation("GET REQUEST");
                 return Ok(_bookReadersRepository.GetPagedList(pageIndex: PageIndex,
                                                            include: i => i.Include(x => x.Book)
                                                                           .Include(x => x.Reader),

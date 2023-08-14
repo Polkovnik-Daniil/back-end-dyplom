@@ -92,7 +92,7 @@ namespace WebAPI.Controllers
         [HttpPost, Authorize(Roles = "Admin, Moderator")]
         public async Task<IActionResult> InsertElement([FromBody] Book value)
         {
-            _logger.LogInformation("/api/Book : post request");
+            _logger.LogInformation("POST REQUEST");
             try
             {
                 var IsExistNewValue = _bookRepository.GetFirstOrDefault(predicate: x=>x.Realise == value.Realise && x.Title == value.Title && x.Quantity == value.Quantity) is not null;
