@@ -1,7 +1,6 @@
 C:\Users\Пользователь\Desktop\Серверная часть\DTO\bin\Debug\net6.0\DTO.deps.json
 C:\Users\Пользователь\Desktop\Серверная часть\DTO\bin\Debug\net6.0\DTO.dll
 C:\Users\Пользователь\Desktop\Серверная часть\DTO\bin\Debug\net6.0\DTO.pdb
-C:\Users\Пользователь\Desktop\Серверная часть\DTO\obj\Debug\net6.0\DTO.csproj.AssemblyReference.cache
 C:\Users\Пользователь\Desktop\Серверная часть\DTO\obj\Debug\net6.0\DTO.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\Пользователь\Desktop\Серверная часть\DTO\obj\Debug\net6.0\DTO.AssemblyInfoInputs.cache
 C:\Users\Пользователь\Desktop\Серверная часть\DTO\obj\Debug\net6.0\DTO.AssemblyInfo.cs

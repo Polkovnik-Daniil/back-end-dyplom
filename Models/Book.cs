@@ -7,8 +7,8 @@ namespace Models {
         public int Id { get; set; }
         public string Title { get; set; }
         public DateTime? Realise { get; set; }
-        public int? Count { get; set; }
-        public int? Quantity { get; set; }
+        public int? NumberOfBooks { get; set; }
+        public int? NumberOfPage { get; set; }
         public IList<Author>? Authors { get; set; } // BookAuthor
         public IList<BookAuthor>? BookAuthors { get; set; }
         public IList<Genre>? Genres { get; set; }   // BookGenre

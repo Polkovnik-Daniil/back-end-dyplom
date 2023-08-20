@@ -12,8 +12,8 @@ namespace DTO
 
         public DateTime? Realise { get; set; }
 
-        public int? Count { get; set; }
+        public int? NumberOfBooks { get; set; }
 
-        public int? Quantity { get; set; }
+        public int? NumberOfPage { get; set; }
     }
 }
