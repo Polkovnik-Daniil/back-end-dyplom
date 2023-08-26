@@ -4,7 +4,9 @@ namespace Models {
     public class Book {
         #region Fields
         [Key]
-        public int Id { get; set; }
+
+        // TODO : instead integer use GUID for ID
+        public Guid Id { get; set; }
         public string Title { get; set; }
         public DateTime? Realise { get; set; }
         public int? NumberOfBooks { get; set; }

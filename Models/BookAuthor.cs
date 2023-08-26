@@ -4,9 +4,13 @@
     public class BookAuthor
     {
         #region Fields
-        public int BookId { get; set; }
+
+        // TODO : instead integer use GUID for ID
+        public Guid BookId { get; set; }
         public Book? Book { get; set; }
-        public int AuthorId { get; set; }
+
+        // TODO : instead integer use GUID for ID
+        public Guid AuthorId { get; set; }
         public Author? Author { get; set; }
         #endregion
     }

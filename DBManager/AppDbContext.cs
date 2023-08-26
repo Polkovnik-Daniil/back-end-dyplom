@@ -76,20 +76,22 @@ namespace DBManager {
                     j.HasKey(t => new { t.ReaderId, t.BookId });
                     j.ToTable("BookReader");
                 });
-
+            Guid AdminRole = Guid.NewGuid();
+            Guid ModeratorRole = Guid.NewGuid();
+            Guid UserRole = Guid.NewGuid();
             //Первые инициализируемые значения
             modelBuilder.Entity<Role>().HasData(
                 new Role[] {
-                    new Role { Id = 1, Name = "Admin"       },
-                    new Role { Id = 2, Name = "Moderator"   },
-                    new Role { Id = 3, Name = "User"        }
+                    new Role { Id = AdminRole, Name = "Admin"       },
+                    new Role { Id = ModeratorRole, Name = "Moderator"   },
+                    new Role { Id = UserRole, Name = "User"        }
                 });
 
             modelBuilder.Entity<User>().HasData(
                 new User[] {
-                    new User { Id = 1, Email = "admin@example.com",     Name = "admin",      Password = "string", IsLocked = false, RoleId = 1 },
-                    new User { Id = 2, Email = "moderator@example.com", Name = "moderator",  Password = "string", IsLocked = false, RoleId = 2 },
-                    new User { Id = 3, Email = "user@example.com",      Name = "user",       Password = "string", IsLocked = false, RoleId = 3 }
+                    new User { Id = Guid.NewGuid(), Email = "admin@example.com",     Name = "admin",      Password = "string", IsLocked = false, RoleId = AdminRole },
+                    new User { Id = Guid.NewGuid(), Email = "moderator@example.com", Name = "moderator",  Password = "string", IsLocked = false, RoleId = ModeratorRole },
+                    new User { Id = Guid.NewGuid(), Email = "user@example.com",      Name = "user",       Password = "string", IsLocked = false, RoleId = UserRole }
                 });
         }
     }

@@ -3,7 +3,9 @@
 namespace Models {
     public class Genre {
         [Key]
-        public int Id { get; set; }
+
+        // TODO : instead integer use GUID for ID
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public IList<Book>? Books { get; set; }
         public IList<BookGenre>? BookGenre { get; set; }

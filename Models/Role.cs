@@ -3,7 +3,9 @@
 namespace Models {
     public class Role {
         [Key]
-        public int Id { get; set; }
+
+        // TODO : instead integer use GUID for ID
+        public Guid Id { get; set; }
         public string Name { get; set; }
     }
 }

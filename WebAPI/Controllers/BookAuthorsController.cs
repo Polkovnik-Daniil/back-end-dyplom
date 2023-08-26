@@ -42,7 +42,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("{authorId:int}/{bookId:int}")]
-        public async Task<IActionResult> GetItem(int authorId, int bookId)
+        public async Task<IActionResult> GetItem(Guid authorId, Guid bookId)
         {
             try
             {
@@ -115,7 +115,7 @@ namespace WebAPI.Controllers
 
         [HttpDelete("{authorId:int}/{bookId:int}")]
         [Authorize(Roles = "Admin, Moderator")]
-        public async Task<IActionResult> DeleteElement(int authorId, int bookId)
+        public async Task<IActionResult> DeleteElement(Guid authorId, Guid bookId)
         {
             try
             {

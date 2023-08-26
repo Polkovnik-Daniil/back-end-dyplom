@@ -138,7 +138,7 @@ namespace WebAPI.Controllers
         }
         [HttpDelete("{readerId:int}/{bookId:int}/{start:datetime}/{end:datetime}")]
         [Authorize(Roles = "Admin, Moderator")]
-        public async Task<IActionResult> DeleteElement(int readerId, int bookId, DateTime start, DateTime end)
+        public async Task<IActionResult> DeleteElement(Guid readerId, Guid bookId, DateTime start, DateTime end)
         {
             try
             {

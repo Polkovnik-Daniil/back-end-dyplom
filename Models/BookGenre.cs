@@ -4,12 +4,16 @@
     public class BookGenre
     {
         #region Fields
-        public int BookId { get; set; }   
+
+        // TODO : instead integer use GUID for ID
+        public Guid BookId { get; set; }   
         /// <summary>
         /// Книга
         /// </summary>
         public Book Book { get; set; }
-        public int GenreId { get; set; }
+
+        // TODO : instead integer use GUID for ID
+        public Guid GenreId { get; set; }
         /// <summary>
         /// Жанр книги
         /// </summary>
