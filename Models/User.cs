@@ -3,7 +3,9 @@
 namespace Models {
     public class User {
         [Key]
-        public int Id { get; set; }
+
+        // TODO : instead integer use GUID for ID
+        public Guid Id { get; set; }
         public string Name { get; set; }
         [EmailAddress]
         [Required(ErrorMessage = "Invalid Email")]
@@ -11,7 +13,9 @@ namespace Models {
         [Required(ErrorMessage = "Invalid Password")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
-        public int? RoleId { get; set; }
+
+        // TODO : instead integer use GUID for ID
+        public Guid? RoleId { get; set; }
         public Role? Role { get; set; }
         public string? RefreshToken { get; set; }
         public DateTime? RefreshTokenExpiryTime { get; set; }

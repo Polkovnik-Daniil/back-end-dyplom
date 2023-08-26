@@ -8,7 +8,10 @@
     ".NETCoreApp,Version=v7.0": {
       "WebAPI/1.0.0": {
         "dependencies": {
+          "AutoMapper": "12.0.1",
+          "AutoMapper.Extensions.Microsoft.DependencyInjection": "12.0.1",
           "DBManager": "1.0.0",
+          "DTO": "1.0.0",
           "Microsoft.AspNetCore.Authentication.JwtBearer": "7.0.4",
           "Microsoft.AspNetCore.Mvc.NewtonsoftJson": "7.0.5",
           "Microsoft.AspNetCore.OpenApi": "7.0.1",
@@ -18,11 +21,35 @@
           "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": "1.17.0",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "7.0.5",
           "Models": "1.0.0",
+          "NLog.Web.AspNetCore": "5.3.2",
           "Swashbuckle.AspNetCore": "6.4.0",
           "System.IdentityModel.Tokens.Jwt": "6.27.0"
         },
         "runtime": {
           "WebAPI.dll": {}
+        }
+      },
+      "AutoMapper/12.0.1": {
+        "dependencies": {
+          "Microsoft.CSharp": "4.7.0"
+        },
+        "runtime": {
+          "lib/netstandard2.1/AutoMapper.dll": {
+            "assemblyVersion": "12.0.0.0",
+            "fileVersion": "12.0.1.0"
+          }
+        }
+      },
+      "AutoMapper.Extensions.Microsoft.DependencyInjection/12.0.1": {
+        "dependencies": {
+          "AutoMapper": "12.0.1",
+          "Microsoft.Extensions.Options": "7.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.1/AutoMapper.Extensions.Microsoft.DependencyInjection.dll": {
+            "assemblyVersion": "12.0.0.0",
+            "fileVersion": "12.0.1.0"
+          }
         }
       },
       "Azure.Core/1.24.0": {
@@ -1425,6 +1452,38 @@
           }
         }
       },
+      "NLog/5.2.2": {
+        "runtime": {
+          "lib/netstandard2.0/NLog.dll": {
+            "assemblyVersion": "5.0.0.0",
+            "fileVersion": "5.2.2.1914"
+          }
+        }
+      },
+      "NLog.Extensions.Logging/5.3.2": {
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.Abstractions": "7.0.0",
+          "Microsoft.Extensions.Logging": "7.0.0",
+          "NLog": "5.2.2"
+        },
+        "runtime": {
+          "lib/net6.0/NLog.Extensions.Logging.dll": {
+            "assemblyVersion": "5.0.0.0",
+            "fileVersion": "5.3.2.373"
+          }
+        }
+      },
+      "NLog.Web.AspNetCore/5.3.2": {
+        "dependencies": {
+          "NLog.Extensions.Logging": "5.3.2"
+        },
+        "runtime": {
+          "lib/net6.0/NLog.Web.AspNetCore.dll": {
+            "assemblyVersion": "5.0.0.0",
+            "fileVersion": "5.3.2.901"
+          }
+        }
+      },
       "NuGet.Common/6.3.1": {
         "dependencies": {
           "NuGet.Frameworks": "6.3.1"
@@ -2400,6 +2459,11 @@
           "DBManager.dll": {}
         }
       },
+      "DTO/1.0.0": {
+        "runtime": {
+          "DTO.dll": {}
+        }
+      },
       "Models/1.0.0": {
         "dependencies": {
           "Microsoft.EntityFrameworkCore": "7.0.4",
@@ -2416,6 +2480,20 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "AutoMapper/12.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-hvV62vl6Hp/WfQ24yzo3Co9+OPl8wH8hApwVtgWpiAynVJkUcs7xvehnSftawL8Pe8FrPffBRM3hwzLQqWDNjA==",
+      "path": "automapper/12.0.1",
+      "hashPath": "automapper.12.0.1.nupkg.sha512"
+    },
+    "AutoMapper.Extensions.Microsoft.DependencyInjection/12.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-+g/K+Vpe3gGMKGzjslMOdqNlkikScDjWfVvmWTayrDHaG/n2pPmFBMa+jKX1r/h6BDGFdkyRjAuhFE3ykW+r1g==",
+      "path": "automapper.extensions.microsoft.dependencyinjection/12.0.1",
+      "hashPath": "automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512"
     },
     "Azure.Core/1.24.0": {
       "type": "package",
@@ -2962,6 +3040,27 @@
       "sha512": "sha512-QYFyxhaABwmq3p/21VrZNYvCg3DaEoN/wUuw5nmfAf0X3HLjgupwhkEWdgfb9nvGAUIv3osmZoD3kKl4jxEmYQ==",
       "path": "newtonsoft.json.bson/1.0.2",
       "hashPath": "newtonsoft.json.bson.1.0.2.nupkg.sha512"
+    },
+    "NLog/5.2.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-r6Q9740g29gTwmTWlsgdIFm0mhNsfNZmbvWKX/Fxmi8X89ZrpUowHM2T2X1lP7RVpND+ef+XnfKL5g6Q1iNGXA==",
+      "path": "nlog/5.2.2",
+      "hashPath": "nlog.5.2.2.nupkg.sha512"
+    },
+    "NLog.Extensions.Logging/5.3.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-v6swUNj9KHH4tWKH3+eCuFsp/BfpkWmbz1XPCIXb9fnSVsEHcfyRnfXjuksfMdIULgR/i1RzbQUU8WsNVpBglg==",
+      "path": "nlog.extensions.logging/5.3.2",
+      "hashPath": "nlog.extensions.logging.5.3.2.nupkg.sha512"
+    },
+    "NLog.Web.AspNetCore/5.3.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-SLBeDj30nu1sjc3DsPhTdXSL90915eeQknYbSCZOthccxqVJS1RZna0sh746kDaD21ktnYMubXT+gNWgn3oGpA==",
+      "path": "nlog.web.aspnetcore/5.3.2",
+      "hashPath": "nlog.web.aspnetcore.5.3.2.nupkg.sha512"
     },
     "NuGet.Common/6.3.1": {
       "type": "package",
@@ -3762,6 +3861,11 @@
       "hashPath": "system.xml.xdocument.4.3.0.nupkg.sha512"
     },
     "DBManager/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "DTO/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

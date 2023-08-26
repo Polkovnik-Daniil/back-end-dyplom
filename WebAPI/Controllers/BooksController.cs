@@ -92,10 +92,10 @@ namespace WebAPI.Controllers
         [HttpPost, Authorize(Roles = "Admin, Moderator")]
         public async Task<IActionResult> InsertElement([FromBody] Book value)
         {
-            _logger.LogInformation("/api/Book : post request");
+            _logger.LogInformation("POST REQUEST");
             try
             {
-                var IsExistNewValue = _bookRepository.GetFirstOrDefault(predicate: x=>x.Realise == value.Realise && x.Title == value.Title && x.Quantity == value.Quantity) is not null;
+                var IsExistNewValue = _bookRepository.GetFirstOrDefault(predicate: x=>x.Realise == value.Realise && x.Title == value.Title && x.NumberOfPage == value.NumberOfPage) is not null;
                 if(!IsExistNewValue)
                 {
                     var tempGenre = value.Genres != null && value.Genres.Count != 0 ? value.Genres.Select(g => _genreRepository.GetFirstOrDefault(predicate: x => x.Name == g.Name)).ToList() : null;
@@ -106,7 +106,7 @@ namespace WebAPI.Controllers
                     value.Authors = null;
                     _bookRepository.Insert(value);
                     _unitOfWork.SaveChanges();
-                    var bookId = _bookRepository.GetFirstOrDefault(predicate: x => x.Realise == value.Realise && x.Title == value.Title && x.Quantity == value.Quantity).Id;
+                    var bookId = _bookRepository.GetFirstOrDefault(predicate: x => x.Realise == value.Realise && x.Title == value.Title && x.NumberOfPage == value.NumberOfPage).Id;
                     if(tempGenre is not null)
                     {
                         for(int i = 0; i < tempGenre.Count; i++)

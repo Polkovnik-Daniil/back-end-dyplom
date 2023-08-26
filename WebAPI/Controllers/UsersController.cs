@@ -32,7 +32,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                _logger.LogInformation("/api/Roles : get request");
+                _logger.LogInformation("GET REQUEST");
                 return Ok(_userRepository.GetPagedList(pageIndex: PageIndex,
                                                     include: i => i.Include(x => x.Role),
                                                     pageSize: 100).Items);

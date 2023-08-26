@@ -72,8 +72,8 @@ namespace WebAPI.Controllers
                 var IsExistNewValue = _genreRepository.Find(value.Id) is not null;
                 if(!IsExistNewValue)
                 {
-                    _genreRepository.Insert(value);
-                    _unitOfWork.SaveChanges();
+                    _genreRepository.InsertAsync(value);
+                    _unitOfWork.SaveChangesAsync();
                     return Ok("This value was added!");
                 }
                 return Ok("This value is exist!");
