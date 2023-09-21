@@ -27,8 +27,8 @@ namespace WebAPI.Controllers
             _tokenService = tokenService ?? throw new ArgumentNullException(nameof(tokenService));
             _logger.LogDebug("AuthorizationController", "NLog injected into AuthorizationController");
         }
-        [AllowAnonymous]
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> LogIn([FromBody] LoginModel loginModel)
         {
             try

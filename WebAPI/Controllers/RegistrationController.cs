@@ -28,8 +28,9 @@ namespace WebAPI.Controllers
             _tokenService = tokenService ?? throw new ArgumentNullException(nameof(tokenService));
             _logger.LogDebug("RegistrationController", "NLog injected into RegistrationController");
         }
-        [AllowAnonymous]
+
         [HttpPost]
+        [AllowAnonymous]
         public IActionResult Post([FromBody] User newUser)
         {
             try

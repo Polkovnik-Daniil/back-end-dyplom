@@ -35,7 +35,7 @@ namespace WebAPI.Controllers
                 return Ok(_genreRepository.GetPagedList(pageIndex: PageIndex,
                                                     pageSize: 100).Items);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
                 return StatusCode(500);
@@ -49,13 +49,13 @@ namespace WebAPI.Controllers
             {
                 _logger.LogInformation("GET REQUEST ID");
                 var result = _genreRepository.Find(id);
-                if(result is null)
+                if (result is null)
                 {
                     return BadRequest("Value is not exist!");
                 }
                 return Ok(result);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
                 return StatusCode(500);
@@ -70,7 +70,7 @@ namespace WebAPI.Controllers
             {
                 _logger.LogInformation("POST REQUEST");
                 var IsExistNewValue = _genreRepository.Find(value.Id) is not null;
-                if(!IsExistNewValue)
+                if (!IsExistNewValue)
                 {
                     _genreRepository.InsertAsync(value);
                     _unitOfWork.SaveChangesAsync();
@@ -78,7 +78,7 @@ namespace WebAPI.Controllers
                 }
                 return Ok("This value is exist!");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
                 return StatusCode(500);
@@ -93,13 +93,13 @@ namespace WebAPI.Controllers
             {
                 _logger.LogInformation("PUT REQUEST");
                 var oldValue = _genreRepository.Find(value.Id);
-                if(oldValue is null)
+                if (oldValue is null)
                 {
                     BadRequest("Values is not exist!");
                 }
                 _unitOfWork.DbContext.Entry(oldValue!).State = EntityState.Detached; //убираю отслеживание, для того, чтобы можно было обновить значение
                 bool IsEqualOldValue = oldValue!.Equals(value);
-                if(!IsEqualOldValue)
+                if (!IsEqualOldValue)
                 {
                     _genreRepository.Update(value);
                     _unitOfWork.SaveChanges();
@@ -107,7 +107,7 @@ namespace WebAPI.Controllers
                 }
                 return Ok("This value is actually");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
                 return StatusCode(500);
@@ -122,7 +122,7 @@ namespace WebAPI.Controllers
             {
                 _logger.LogInformation("DELETE REQUEST");
                 var removedValue = _genreRepository.Find(id);
-                if(removedValue is null)
+                if (removedValue is null)
                 {
                     return Ok("This value was deleted!");
                 }
@@ -131,7 +131,7 @@ namespace WebAPI.Controllers
                 _unitOfWork.SaveChanges();
                 return Ok("This value is deleted!");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
                 return StatusCode(500);

@@ -11,6 +11,7 @@ using WebAPI.Services;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using WebAPI.Helpers;
+using WebAPI.Filter;
 
 
 // Early init of NLog to allow startup and exception logging, before host is built
@@ -56,10 +57,13 @@ try
     });
 
     // Add services to the container.
-    builder.Services.AddControllers().AddNewtonsoftJson(x =>
-                                        {
-                                            x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                                        });
+    builder.Services.AddControllers(options =>
+    {
+        options.Filters.Add(new LoggerFilter());
+    }).AddNewtonsoftJson(x =>
+    {
+        x.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+    });
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen(
@@ -91,7 +95,7 @@ try
     var app = builder.Build();
 
     // Configure the HTTP request pipeline.
-    if(app.Environment.IsDevelopment())
+    if (app.Environment.IsDevelopment())
     {
         app.UseSwagger();
         app.UseSwaggerUI();
@@ -107,7 +111,7 @@ try
 
     app.Run();
 }
-catch(Exception exception)
+catch (Exception exception)
 {
     // NLog: catch setup errors
     logger.Error(exception, "Stopped program because of exception");

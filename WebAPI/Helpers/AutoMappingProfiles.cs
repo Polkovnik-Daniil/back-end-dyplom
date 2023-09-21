@@ -7,9 +7,9 @@ namespace WebAPI.Helpers
     public class AutoMappingProfiles : Profile
     {
         public AutoMappingProfiles() {
-            CreateMap<Author, DTOAuthor>().ReverseMap();
-            CreateMap<Book, DTOBook>().ReverseMap();
-            CreateMap<Reader, DTOReader>().ReverseMap();
+            CreateMap<Author, AuthorDTO>().ReverseMap();
+            CreateMap<Book, BookDTO>().ReverseMap();
+            CreateMap<Reader, ReaderDTO>().ReverseMap();
         }
     }
 }

@@ -40,7 +40,6 @@ namespace WebAPI.Controllers
                 return StatusCode(500);
             }
         }
-
         [HttpGet("{id}")]
         public async Task<IActionResult> GetItem(int id)
         {
@@ -60,7 +59,6 @@ namespace WebAPI.Controllers
                 return StatusCode(500);
             }
         }
-
         [HttpPost]
         [Authorize(Roles = "Admin, Moderator")]
         public async Task<IActionResult> InsertElement([FromBody] Author value)
@@ -83,7 +81,6 @@ namespace WebAPI.Controllers
                 return StatusCode(500);
             }
         }
-
         [HttpPut]
         [Authorize(Roles = "Admin, Moderator")]
         public async Task<IActionResult> UpdateElement([FromBody] Author value)

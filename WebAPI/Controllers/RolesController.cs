@@ -27,7 +27,6 @@ namespace WebAPI.Controllers
             _roleRepository = _unitOfWork.GetRepository<Role>() ?? throw new ArgumentNullException(nameof(_unitOfWork));
             _logger.LogDebug("RolesController", "NLog injected into RolesController");
         }
-
         [HttpGet]
         public async Task<IActionResult> GetPage(int PageIndex = 0)
         {
@@ -43,7 +42,6 @@ namespace WebAPI.Controllers
                 return StatusCode(500);
             }
         }
-
         [HttpGet("{id}")]
         public async Task<IActionResult> GetItem(int id)
         {
@@ -63,7 +61,6 @@ namespace WebAPI.Controllers
                 return StatusCode(500);
             }
         }
-
         [HttpPost]
         public async Task<IActionResult> InsertElement([FromBody] Role value)
         {
@@ -85,7 +82,6 @@ namespace WebAPI.Controllers
                 return StatusCode(500);
             }
         }
-
         [HttpPut]
         public async Task<IActionResult> UpdateElement([FromBody] Role value)
         {
@@ -113,7 +109,6 @@ namespace WebAPI.Controllers
                 return StatusCode(500);
             }
         }
-
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteElement(int id)
         {

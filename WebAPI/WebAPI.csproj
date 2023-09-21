@@ -28,9 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DBManager\DBManager.csproj" />
-    <ProjectReference Include="..\DTO\DTO.csproj" />
-    <ProjectReference Include="..\Models\Models.csproj" />
+    <Folder Include="Middleware\" />
   </ItemGroup>
 
 </Project>

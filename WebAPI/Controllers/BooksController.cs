@@ -24,8 +24,7 @@ namespace WebAPI.Controllers
 
 
         public BooksController(ILogger<BooksController> logger,
-                              IServiceProvider serviceProvider,
-                              ITokenService tokenService)
+                              IServiceProvider serviceProvider)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _unitOfWork = serviceProvider.GetRequiredService<IUnitOfWork<AppDbContext>>() ?? throw new ArgumentNullException(nameof(serviceProvider));
@@ -36,7 +35,6 @@ namespace WebAPI.Controllers
             _bookAuthorRepository = _unitOfWork.GetRepository<BookAuthor>() ?? throw new ArgumentNullException(nameof(_unitOfWork));
             _logger.LogDebug("BooksController", "NLog injected into BooksController");
         }
-
         [HttpGet]
         public async Task<IActionResult> GetPage(int PageIndex = 0)
         {
@@ -88,7 +86,6 @@ namespace WebAPI.Controllers
                 return StatusCode(500);
             }
         }
-
         [HttpPost, Authorize(Roles = "Admin, Moderator")]
         public async Task<IActionResult> InsertElement([FromBody] Book value)
         {
@@ -141,7 +138,6 @@ namespace WebAPI.Controllers
                 return StatusCode(500);
             }
         }
-
         [HttpPut, Authorize(Roles = "Admin, Moderator")]
         public async Task<IActionResult> UpdateElement([FromBody] Book value)
         {
@@ -232,7 +228,6 @@ namespace WebAPI.Controllers
                 return StatusCode(500);
             }
         }
-
         [HttpDelete("{id}"), Authorize(Roles = "Admin, Moderator")]
         public IActionResult DeleteElement(int id)
         {

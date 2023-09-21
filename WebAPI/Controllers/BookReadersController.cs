@@ -47,6 +47,7 @@ namespace WebAPI.Controllers
                 return StatusCode(500);
             }
         }
+
         [HttpGet, Route("CountPage")]
         public async Task<IActionResult> GetCountPage()
         {
@@ -80,7 +81,6 @@ namespace WebAPI.Controllers
                 return StatusCode(500);
             }
         }
-
         [HttpPost]
         public async Task<IActionResult> InsertElement([FromBody] BookReader value)
         {
@@ -103,7 +103,6 @@ namespace WebAPI.Controllers
                 return StatusCode(500);
             }
         }
-
         [HttpPut]
         public async Task<IActionResult> UpdateElement([FromBody] BookReader value)
         {
@@ -136,6 +135,7 @@ namespace WebAPI.Controllers
                 return StatusCode(500);
             }
         }
+
         [HttpDelete("{readerId:int}/{bookId:int}/{start:datetime}/{end:datetime}")]
         [Authorize(Roles = "Admin, Moderator")]
         public async Task<IActionResult> DeleteElement(Guid readerId, Guid bookId, DateTime start, DateTime end)

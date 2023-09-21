@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Models;
+using WebAPI.Filter;
 
 namespace WebAPI.Controllers
 {
@@ -22,7 +23,6 @@ namespace WebAPI.Controllers
             _bookAuthorRepository = _unitOfWork.GetRepository<BookAuthor>() ?? throw new ArgumentNullException(nameof(_unitOfWork));
             _logger.LogDebug("BookAuthorsController", "NLog injected into BookAuthorsController");
         }
-
         [HttpGet]
         public async Task<IActionResult> GetPage(int PageIndex = 0)
         {
@@ -40,7 +40,6 @@ namespace WebAPI.Controllers
                 return StatusCode(500);
             }
         }
-
         [HttpGet("{authorId:int}/{bookId:int}")]
         public async Task<IActionResult> GetItem(Guid authorId, Guid bookId)
         {
@@ -60,7 +59,6 @@ namespace WebAPI.Controllers
                 return StatusCode(500);
             }
         }
-
         [HttpPost]
         [Authorize(Roles = "Admin, Moderator")]
         public async Task<IActionResult> InsertElement([FromBody] BookAuthor value)
@@ -83,7 +81,6 @@ namespace WebAPI.Controllers
                 return StatusCode(500);
             }
         }
-
         [HttpPut]
         [Authorize(Roles = "Admin, Moderator")]
         public async Task<IActionResult> UpdateElement([FromBody] BookAuthor value)
@@ -112,7 +109,6 @@ namespace WebAPI.Controllers
                 return StatusCode(500);
             }
         }
-
         [HttpDelete("{authorId:int}/{bookId:int}")]
         [Authorize(Roles = "Admin, Moderator")]
         public async Task<IActionResult> DeleteElement(Guid authorId, Guid bookId)
